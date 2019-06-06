@@ -1,0 +1,123 @@
+<mxGraphModel>
+<root>
+<Workflow label="loadXml" description="" href="" id="0">
+<mxCell/>
+</Workflow>
+<Layer label="Default Layer" description="" href="" id="1">
+<mxCell parent="0"/>
+</Layer>
+<Symbol label="开始" description="" href="" id="25">
+<mxCell style="symbol;image=images/symbols/event.png" parent="1" vertex="1">
+<mxGeometry x="330" y="294" width="32" height="32" as="geometry"/>
+</mxCell>
+</Symbol>
+<Symbol label="结束" description="" href="" id="26">
+<mxCell style="symbol;image=images/symbols/event_end.png" parent="1" vertex="1">
+<mxGeometry x="950" y="290" width="32" height="32" as="geometry"/>
+</mxCell>
+</Symbol>
+<Shape label="合同" description="R_27" href="" id="27">
+<mxCell style="rhombus" parent="1" vertex="1">
+<mxGeometry x="420" y="290" width="40" height="40" as="geometry"/>
+</mxCell>
+</Shape>
+<Task label="部门经理" description="A_task1" href="" id="28">
+<mxCell parent="1" vertex="1">
+<mxGeometry x="600" y="200" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Edge label="" description="" id="30">
+<mxCell style="straightEdge" parent="1" source="25" target="27" edge="1">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Edge label="少于10万" description="" id="31">
+<mxCell style="straightEdge" parent="1" source="27" target="28" edge="1">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Edge label="" description="" id="32">
+<mxCell style="straightEdge" parent="1" edge="1">
+<mxGeometry relative="1" as="geometry">
+<mxPoint x="678" y="216" as="sourcePoint"/>
+<mxPoint x="866" y="290" as="targetPoint"/>
+<Array as="points">
+<mxPoint x="866" y="240"/>
+</Array>
+</mxGeometry>
+</mxCell>
+</Edge>
+<Task label="部门经理" description="" href="" id="33">
+<mxCell parent="1" vertex="1">
+<mxGeometry x="600" y="290" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Task label=" 部门经理" description="" href="" id="34">
+<mxCell parent="1" vertex="1">
+<mxGeometry x="600" y="388" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Edge label="大于10万小于50万" description="L_35" id="35">
+<mxCell parent="1" source="27" target="33" edge="1">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Edge label="大于50万" description="L_36" id="36">
+<mxCell parent="1" source="27" target="34" edge="1">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Edge label="" description="" id="37">
+<mxCell edge="1" parent="1" source="33" target="42">
+<mxGeometry relative="1" as="geometry">
+<mxPoint x="820" y="306" as="targetPoint"/>
+</mxGeometry>
+</mxCell>
+</Edge>
+<Task label="财务" description="" href="" id="39">
+<mxCell vertex="1" parent="1">
+<mxGeometry x="830" y="290" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Edge label="" description="" id="41">
+<mxCell style="straightEdge" edge="1" parent="1" source="39" target="26">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Task label="副总经理" description="" href="" id="42">
+<mxCell vertex="1" parent="1">
+<mxGeometry x="720" y="290" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Edge label="" description="" id="44">
+<mxCell style="straightEdge" edge="1" parent="1" source="42" target="39">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Task label="副总经理" description="" href="" id="45">
+<mxCell vertex="1" parent="1">
+<mxGeometry x="720" y="388" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Task label="总经理" description="" href="" id="46">
+<mxCell vertex="1" parent="1">
+<mxGeometry x="830" y="388" width="72" height="32" as="geometry"/>
+</mxCell>
+</Task>
+<Edge label="" description="" id="47">
+<mxCell style="straightEdge" edge="1" parent="1" source="34" target="45">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Edge label="" description="" id="48">
+<mxCell style="straightEdge" edge="1" parent="1" source="45" target="46">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+<Edge label="" description="" id="49">
+<mxCell style="straightEdge" edge="1" parent="1" source="46" target="39">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+</Edge>
+</root>
+</mxGraphModel>
