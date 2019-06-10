@@ -6,8 +6,14 @@ import java.util.List;
 
 public abstract class Node extends BaseElement {
 
+    /**
+     * 入节点的链接线边
+     * */
     private List<Edge> incoming = new ArrayList<>();
 
+    /**
+     * 出节点的链接线边
+     */
     private List<Edge> outgoing = new ArrayList<>();
 
     public List<Edge> getIncoming() {

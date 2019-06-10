@@ -8,6 +8,7 @@ import com.duangframework.workflow.event.ShapeEvent;
 import com.duangframework.workflow.event.SymbolEvent;
 import com.duangframework.workflow.event.TaskEvent;
 import com.duangframework.workflow.utils.Const;
+import com.duangframework.workflow.utils.NodeConvetorFatctory;
 
 
 import java.util.*;
@@ -144,9 +145,9 @@ public class ProcessDefinition {
 //
 //		}
 //		createProcessNode(startEvent.getId(), startEvent);
-		createProcessNode(startEvent.getId(), "0", startEvent);
+//		createProcessNode(startEvent.getId(), "0", startEvent);
 		// 执行是以点为主,点才是要执行的任务,边只是作为顺序+判断等用途
-		ProcessInstance instance = new ProcessInstance();
+		ProcessInstance instance = NodeConvetorFatctory.getInstance(nodeMap, edgeMap).convetor(startEvent);
 //		instance.addCandidate(startEvent);
 		return instance;
 	}
