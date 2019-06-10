@@ -4,11 +4,13 @@ import com.duangframework.kit.ToolsKit;
 import com.duangframework.utils.Assert;
 import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
+import com.duangframework.workflow.event.ShapeEvent;
+import com.duangframework.workflow.event.SymbolEvent;
+import com.duangframework.workflow.event.TaskEvent;
+import com.duangframework.workflow.utils.Const;
 
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author laotang
@@ -45,14 +47,8 @@ public class ProcessDefinition {
 		for (Edge edge : edges) {
 			String sourceNodeId = edge.getSourceId();
 			String targetNodeId = edge.getTargetId();
-
-			if(ToolsKit.isEmpty(sourceNodeId) || ToolsKit.isEmpty(targetNodeId)) {
-				continue;
-			}
-
 			Node sourceNode = nodeMap.get(sourceNodeId);
 			Node targetNode = nodeMap.get(targetNodeId);
-
 			Assert.isTrue(null != sourceNode, "find not node , not valid src node id -> " + sourceNodeId);
 			Assert.isTrue(null != targetNode, "find not node , not valid target node id -> " + targetNodeId);
 
@@ -60,16 +56,16 @@ public class ProcessDefinition {
 
 			// 完善源节点的信息点
 			sourceNode.getOutgoing().add(edge);
-//			sourceNode.setConnected(true);
+			sourceNode.setConnected(true);
 
 			// 完善目标节点的信息点
 			targetNode.getIncoming().add(edge);
-//			targetNode.setConnected(true);
+			targetNode.setConnected(true);
 
 			// 完善edge的信息点
 			edge.setSourceNode(sourceNode);
 			edge.setTargetNode(targetNode);
-//			edge.setConnected(true);
+			edge.setConnected(true);
 
 			/*
 			if (edge instanceof SequenceFlow) {
@@ -102,68 +98,134 @@ public class ProcessDefinition {
 			}
 			*/
 		}
-
+		/*
 		for(Iterator<Map.Entry<String,Node>> iterator = nodeMap.entrySet().iterator(); iterator.hasNext();) {
 			Map.Entry<String,Node> entry = iterator.next();
 			Node node = entry.getValue();
 			System.out.println(entry.getKey()+"       "+node.getIncoming()+"            "+node.getOutgoing());
 		}
+		System.out.println();
+		System.out.println();System.out.println();
+		for(Iterator<Map.Entry<String,Edge>> iterator = edgeMap.entrySet().iterator(); iterator.hasNext();) {
+			Map.Entry<String,Edge> entry = iterator.next();
+			Edge node = entry.getValue();
+			System.out.println(entry.getKey()+"       "+node.getSourceNode()+"            "+node.getTargetNode());
+		}
+		*/
+ 	}
 
-		// 上面已经保证了每个边都用到了,所以只要判断是不是每个点都被使用了
-		// 顺便发现startEvent,而且必须唯一
-//		SymbolEvent startEvent = null;
-//		Collection<Node> nodes = nodeMap.values();
-//		for (Node node : nodes) {
-//			Assert.isTrue(node.isConnected(), "node not used , check your xml , id is ->" + node.getId());
-//			if (node instanceof SymbolEvent) {
-//				Assert.isTrue(null == startEvent, "startEvent XML element must be only 1");
-//				startEvent = (SymbolEvent) node;
-//			}
-//		}
-
-	}
-/*
 	@SuppressWarnings("unused")
 	public ProcessInstance deploy() throws Exception {
 
-		// 唯一开始事件
-		Node startEvent = null;
-
-		// 深度拷贝点
+//		 上面已经保证了每个边都用到了,所以只要判断是不是每个点都被使用了
+//		 顺便发现startEvent而且必须唯一
+		SymbolEvent startEvent = null, endEvent = null;
 		Collection<Node> nodes = nodeMap.values();
-		Map<String, Node> copiedNodeMap = new HashMap<String, Node>();
 		for (Node node : nodes) {
-
-			Node copiedNode = (Node) node.copy();
-			copiedNodeMap.put(copiedNode.getId(), copiedNode);
-
-			// 保留碰到的startEvent,记住一个流程只能有1个StartEvent元素
+			Assert.isTrue(node.isConnected(), "节点不存在，请检查XML文件 , id is ->" + node.getId()+", label is ->"+node.getDescription());
+			// 开启或结束节点
 			if (node instanceof SymbolEvent) {
-				Assert.isTrue(null == startEvent,
-						"only 1 start event xml element supported in Single Process Definition");
-				startEvent = copiedNode;
+				if(isStartNode(node)) {
+					Assert.isTrue(null == startEvent, "开始节点只能有1个!");
+					startEvent = (SymbolEvent) node;
+					System.out.println("StartEvent: " + startEvent.getId() + "               " + startEvent.getOutgoing()+"                 "+startEvent.getDescription());
+				}
+				if(isEndNode(node)) {
+					endEvent = (SymbolEvent) node;
+					System.out.println("EndEvent: " + startEvent.getId() + "               " + startEvent.getOutgoing()+"                 "+startEvent.getDescription());
+				}
 			}
-
 		}
-
-		// 深度拷贝边
-		Collection<Edge> edges = edgeMap.values();
-		Map<String, Edge> copiedEdgeMap = new HashMap<String, Edge>();
-		for (Edge edge : edges) {
-			Edge copiedEdge = (Edge) edge.copy();
-			copiedEdgeMap.put(copiedEdge.getId(), copiedEdge);
-		}
-
-		// 内部会把点与边进行关联
-		// 注意:这里是使用拷贝后的点集合+边集合
-		ProcessDefinition topology = new ProcessDefinition(copiedNodeMap, copiedEdgeMap);
-
+		// 确保一个合格的流程开始是至少有1个起点,不然执行啥
+		Assert.isTrue(null != startEvent, "开始节点不存在，请检查XML文件是否正确!");
+//		List<Edge> edgeList = startEvent.getOutgoing();
+//		for(Edge edge : edgeList) {
+//			String targetId =  edge.getTargetId();
+//
+//		}
+//		createProcessNode(startEvent.getId(), startEvent);
+		createProcessNode(startEvent.getId(), "0", startEvent);
 		// 执行是以点为主,点才是要执行的任务,边只是作为顺序+判断等用途
 		ProcessInstance instance = new ProcessInstance();
-		// 确保一个合格的流程开始是至少有1个起点,不然执行啥
-		Assert.isTrue(null != startEvent, "start event not exist,check your xml definition");
-		instance.addCandidate(startEvent);
+//		instance.addCandidate(startEvent);
 		return instance;
 	}
-*/
+
+	private boolean isStartNode(Node node) {
+		return ToolsKit.isEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing()) && Const.START_LABEL.equals(node.getLabel());
+	}
+
+	private boolean isShapeNode(Node node) {
+		return node instanceof ShapeEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+	}
+
+	private boolean isTaskNode(Node node) {
+		return node instanceof TaskEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+	}
+
+	private boolean isEndNode(Node node) {
+		return ToolsKit.isEmpty(node.getOutgoing()) && ToolsKit.isNotEmpty(node.getIncoming()) && Const.END_LABEL.equals(node.getLabel());
+	}
+
+	private void createProcessNode(String pid, String taskId, Node processNode) {
+		List<Edge> outEdgeList = processNode.getOutgoing();
+		for (Edge edge : outEdgeList) {
+			String targetId = edge.getTargetId();
+			Node node = nodeMap.get(targetId);
+			if(isShapeNode(node)) {
+				for(Iterator<Edge> iterator = node.getOutgoing().iterator(); iterator.hasNext();) {
+					Edge e = iterator.next();
+					String pid2 = e.getId();
+					System.out.println(pid + " @@@@@@@@@: " + pid2+"                       "+taskId);
+//					taskId +=","+pid2;
+					createProcessNode(pid2, taskId, nodeMap.get(e.getTargetId()));
+				}
+			}
+			else if(isTaskNode(node)) {
+				taskId += "," + node.getId();
+			}
+//			else if(isEndNode(node)) {
+//				System.out.println(taskId+"            "+edge.getLabel() + "                                           "+node.getLabel());
+//				System.out.println("###############################################");
+//			}
+			createProcessNode(pid, taskId, node);
+
+		}
+	}
+
+	private void createProcessNode2(String pid, String spid, Node processNode) {
+		List<Edge> outEdgeList = processNode.getOutgoing();
+		for(Edge edge : outEdgeList) {
+			String targetId =  edge.getTargetId();
+			Node node = nodeMap.get(targetId);
+//			List<Edge> inEdgeList = node.getIncoming();
+//			System.out.println("getSourceId: " + inEdgeList.get(0).getSourceId());
+//			System.out.println(inEdgeList);
+
+				// 如果是执行节点，即incoming与outgoing集合都不为空
+			if(!isEndNode(node)) {
+				// 如果是分支节点
+				if(isShapeNode(node)) {
+//					for(Iterator<Edge> iterator = node.getOutgoing().iterator(); iterator.hasNext();) {
+//						Edge e = iterator.next();
+////						System.out.println("###########: " + e.getId());
+//
+//						spid += "/" + e.getId();
+//					}
+					String id = node.getOutgoing().get(0).getId();
+					spid += "/" +id;
+				} else if(isTaskNode(node)) {
+					pid += "," + node.getId();
+				}
+				createProcessNode(pid, spid, node);
+			} else if(isEndNode(node)) {
+				System.out.println(pid+"            "+spid+"            "+edge.getLabel() + "                                           "+node.getLabel());
+				System.out.println("###############################################");
+			}
+
+
+
+		}
+	}
+
 }

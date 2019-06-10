@@ -18,9 +18,11 @@ public class DuangEngine implements Engine {
      */
     @Override
     public ProcessDefinition parse(String resource) throws Exception {
-        return iParserService.parse(resource.trim()
-                .replace("\n","")
-                .replace("\r","")
-                .replace("\t",""));
+        return iParserService.parse(resource.trim());
+    }
+
+    @Override
+    public ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception {
+        return iParserService.deploy(processDefinition);
     }
 }

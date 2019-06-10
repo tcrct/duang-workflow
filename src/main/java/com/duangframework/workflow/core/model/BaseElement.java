@@ -11,15 +11,16 @@ import org.w3c.dom.Node;
  */
 public abstract class BaseElement implements INode {
 
-    /**
-     *
-     */
-    private String[] NAMES = {"description", "name"};
 
     private String id;
     private String label;
     private String description;
     private String href;
+    /**
+     * 是否真的被使用到了,没有使用的视为无效配置,会报异常
+     */
+    private boolean connected = false;
+
 
     public BaseElement() {
     }
@@ -69,24 +70,20 @@ public abstract class BaseElement implements INode {
 
         NamedNodeMap namedNodeMap = node.getAttributes();
         // 提取ID
-        Node idAttribute = namedNodeMap.getNamedItem("id");
-        Assert.isTrue(null != idAttribute, "id must exist");
-        String id = idAttribute.getNodeValue();
+        this.id = getValue(namedNodeMap, "id");
         Assert.hasText(id, "id is empty");
-        this.id = id;
+        // 提取label
+        this.label = getValue(namedNodeMap, "label");
+        // 提取description
+        this.description = getValue(namedNodeMap, "description");
+    }
 
-        // description属性可选
-        String description = null;
+    public boolean isConnected() {
+        return connected;
+    }
 
-        for(String item : NAMES) {
-            Node descriptionAttribute = namedNodeMap.getNamedItem(item);
-            if (ToolsKit.isNotEmpty(descriptionAttribute)) {
-                description = descriptionAttribute.getNodeValue();
-                break;
-            }
-        }
-        this.description = description;
-
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 
     @Override
@@ -97,5 +94,16 @@ public abstract class BaseElement implements INode {
                 ", description='" + description + '\'' +
                 ", href='" + href + '\'' +
                 '}';
+    }
+
+    private String getValue(NamedNodeMap namedNodeMap, String key) {
+        Node attribute = namedNodeMap.getNamedItem(key);
+        if (ToolsKit.isNotEmpty(attribute)) {
+            String value = attribute.getNodeValue();
+            if(ToolsKit.isNotEmpty(value)) {
+                return value;
+            }
+        }
+        return "";
     }
 }

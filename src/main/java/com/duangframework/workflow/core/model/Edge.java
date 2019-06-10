@@ -70,7 +70,7 @@ public abstract class Edge extends BaseElement {
 
         for(int i=0; i<nodeList.getLength(); i++) {
             org.w3c.dom.Node nodeItem = nodeList.item(i);
-//            System.out.println(nodeItem.getNodeName());
+//            System.out.println(nodeItem.getNodeType()+"                   "+node.getNodeName());
             NamedNodeMap attributesNodeMap = nodeItem.getAttributes();
             // 提取sourceId
             org.w3c.dom.Node sourceNode = attributesNodeMap.getNamedItem("source");

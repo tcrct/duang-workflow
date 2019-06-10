@@ -4,6 +4,7 @@ import com.duangframework.kit.ToolsKit;
 import com.duangframework.utils.Assert;
 import com.duangframework.utils.XmlHelper;
 import com.duangframework.workflow.core.ProcessDefinition;
+import com.duangframework.workflow.core.ProcessInstance;
 import com.duangframework.workflow.event.*;
 import com.duangframework.workflow.core.lParserService;
 import com.duangframework.workflow.core.model.Edge;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author laotang
@@ -34,12 +37,27 @@ public class XMLParserService implements lParserService {
         return parseDocument(xmlDoc);
     }
 
+    /**
+     * 去除字符串中的空格、回车、换行符、制表符等
+     * @param str
+     * @return
+     */
+    private String replaceSpecialStr(String str) {
+        String repl = "";
+        if (str != null) {
+            Pattern p = Pattern.compile(">(\\s*|\n|\t|\r)<");
+            Matcher m = p.matcher(str);
+            repl = m.replaceAll("><");
+        }
+        return repl;
+    }
+
     private ProcessDefinition parseDocument(String xmlDoc) {
+        xmlDoc = replaceSpecialStr(xmlDoc);
         Assert.notNull(xmlDoc, "document is null");
         // 获取definitions元素
         XmlHelper xmlHelper = XmlHelper.of(xmlDoc);
         org.w3c.dom.Node rootNode = xmlHelper.getNode("/mxGraphModel/root");
-        System.out.println(rootNode);
         // 开始提取每个子元素，key为ID
         Map<String, Node> nodeMap = new HashMap<>(64);
         Map<String, Edge> edgeMap = new HashMap<>(64);
@@ -97,5 +115,12 @@ public class XMLParserService implements lParserService {
 
         logger.info("两个集合之间没有重复的ID");
 
+    }
+
+
+    @Override
+    public ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception {
+        processDefinition.deploy();
+        return null;
     }
 }

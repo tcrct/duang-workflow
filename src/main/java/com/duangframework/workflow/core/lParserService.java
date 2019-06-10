@@ -14,4 +14,6 @@ public interface lParserService {
      */
     ProcessDefinition parse(String xml) throws Exception;
 
+    ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception;
+
 }
