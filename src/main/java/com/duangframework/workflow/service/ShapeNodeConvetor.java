@@ -15,9 +15,17 @@ public class ShapeNodeConvetor extends NodeConvetor {
     }
 
     @Override
-    public Node convetor() {
-        System.out.println(node.getId()+"                "+node.getLabel());
+    public String getId() {
+        return edge.getId();
+    }
+
+    @Override
+    public String getLabel() {
+        return edge.getLabel();
+    }
+
+    @Override
+    public void convetor() {
         NodeConvetorFatctory.getInstance().convetor(node);
-        return null;
     }
 }

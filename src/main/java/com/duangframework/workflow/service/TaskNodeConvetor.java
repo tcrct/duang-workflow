@@ -15,10 +15,19 @@ public class TaskNodeConvetor extends NodeConvetor {
     }
 
     @Override
-    public Node convetor() {
+    public String getId() {
+        return node.getId();
+    }
+
+    @Override
+    public String getLabel() {
+        return node.getLabel();
+    }
+
+    @Override
+    public void convetor() {
         System.out.println(node.getId()+"                "+node.getLabel());
         NodeConvetorFatctory.getInstance().convetor(node);
-        return null;
     }
 
 

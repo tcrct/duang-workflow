@@ -15,6 +15,8 @@ public abstract class NodeConvetor {
         this.node = node;
     }
 
-    public abstract Node convetor();
+    public abstract String getId();
+    public abstract String getLabel();
+    public abstract void convetor();
 
 }

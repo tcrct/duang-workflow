@@ -52,6 +52,7 @@ public class NodeConvetorFatctory {
             String targetId = edge.getTargetId();
             Node node = nodeMap.get(targetId);
             NodeConvetor nodeConvetor = parse(edge, node);
+            System.out.println(nodeConvetor.getId()+"                 "+nodeConvetor.getLabel());
             nodeConvetor.convetor();
         }
         return null;
