@@ -13,6 +13,7 @@ public abstract class NodeConvetor {
 
     protected NodeConvetor(Edge edge, Node node) {
         this.node = node;
+        this.edge = edge;
     }
 
     public abstract String getId();

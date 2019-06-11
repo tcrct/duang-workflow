@@ -5,6 +5,7 @@ import com.duangframework.workflow.core.NodeConvetor;
 import com.duangframework.workflow.core.ProcessInstance;
 import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
+import com.duangframework.workflow.service.EndNodeConvetor;
 import com.duangframework.workflow.service.ShapeNodeConvetor;
 import com.duangframework.workflow.service.TaskNodeConvetor;
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class NodeConvetorFatctory {
             String targetId = edge.getTargetId();
             Node node = nodeMap.get(targetId);
             NodeConvetor nodeConvetor = parse(edge, node);
-            System.out.println(nodeConvetor.getId()+"                 "+nodeConvetor.getLabel());
+//            System.out.println(nodeConvetor.getId()+"                 "+nodeConvetor.getLabel());
             nodeConvetor.convetor();
         }
         return null;
@@ -65,6 +66,8 @@ public class NodeConvetorFatctory {
             convetor = new ShapeNodeConvetor(edge, node);
         } else if (WorkflowUtils.isTaskNode(node)) {
             convetor = new TaskNodeConvetor(edge, node);
+        } else if (WorkflowUtils.isEndNode(node)) {
+            convetor = new EndNodeConvetor(edge, node);
         }
         return convetor;
     }

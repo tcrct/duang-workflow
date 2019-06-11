@@ -5,6 +5,8 @@ import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
 import com.duangframework.workflow.utils.NodeConvetorFatctory;
 
+import java.util.List;
+
 /**
  * Created by laotang on 2019/6/11.
  */
@@ -16,16 +18,23 @@ public class ShapeNodeConvetor extends NodeConvetor {
 
     @Override
     public String getId() {
-        return edge.getId();
+        return edge.getTargetId();
     }
 
     @Override
     public String getLabel() {
-        return edge.getLabel();
+        return edge.getTargetNode().getLabel();
     }
 
     @Override
     public void convetor() {
-        NodeConvetorFatctory.getInstance().convetor(node);
+        List<Edge> edgeList = node.getOutgoing();
+//        System.out.println("@@@@@@@@@: " + node.getLabel());
+        for(Edge e : edgeList) {
+            Node n = e.getTargetNode();
+            System.out.println("    ######: " + e.getLabel());
+            NodeConvetorFatctory.getInstance().convetor(n);
+        }
+//
     }
 }
