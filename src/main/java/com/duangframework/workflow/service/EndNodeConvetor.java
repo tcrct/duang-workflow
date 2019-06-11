@@ -8,9 +8,9 @@ import com.duangframework.workflow.utils.NodeConvetorFatctory;
 /**
  * Created by laotang on 2019/6/11.
  */
-public class TaskNodeConvetor extends NodeConvetor {
+public class EndNodeConvetor extends NodeConvetor {
 
-    public TaskNodeConvetor(Edge edge, Node node) {
+    public EndNodeConvetor(Edge edge, Node node) {
         super(edge, node);
     }
 
@@ -26,7 +26,6 @@ public class TaskNodeConvetor extends NodeConvetor {
 
     @Override
     public void convetor() {
-        System.out.println("@@@@@@@: " + node.getLabel());
         NodeConvetorFatctory.getInstance().convetor(node);
     }
 
