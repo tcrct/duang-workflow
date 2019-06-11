@@ -9,6 +9,7 @@ import com.duangframework.workflow.event.SymbolEvent;
 import com.duangframework.workflow.event.TaskEvent;
 import com.duangframework.workflow.utils.Const;
 import com.duangframework.workflow.utils.NodeConvetorFatctory;
+import org.apache.commons.lang3.StringUtils;
 
 
 import java.util.*;
@@ -144,12 +145,16 @@ public class ProcessDefinition {
 //			String targetId =  edge.getTargetId();
 //
 //		}
-//		createProcessNode(startEvent.getId(), startEvent);
+         List<String> nodeIdList = new ArrayList<>();
+        nodeIdList.add(startEvent.getLabel());
+		createProcessNode(startEvent, new ArrayList<>(), nodeIdList);
+//        System.out.println(ToolsKit.toJsonString(nodeIdList));
+        return null;
 //		createProcessNode(startEvent.getId(), "0", startEvent);
 		// 执行是以点为主,点才是要执行的任务,边只是作为顺序+判断等用途
-		ProcessInstance instance = NodeConvetorFatctory.getInstance(nodeMap, edgeMap).convetor(startEvent);
+//		ProcessInstance instance = NodeConvetorFatctory.getInstance(nodeMap, edgeMap).convetor(startEvent);
 //		instance.addCandidate(startEvent);
-		return instance;
+//		return instance;
 	}
 
 	private boolean isStartNode(Node node) {
@@ -168,31 +173,40 @@ public class ProcessDefinition {
 		return ToolsKit.isEmpty(node.getOutgoing()) && ToolsKit.isNotEmpty(node.getIncoming()) && Const.END_LABEL.equals(node.getLabel());
 	}
 
-	private void createProcessNode(String pid, String taskId, Node processNode) {
+	private void createProcessNode(Node processNode, List<String> keyList,  List<String> nodeIdList) {
 		List<Edge> outEdgeList = processNode.getOutgoing();
 		for (Edge edge : outEdgeList) {
 			String targetId = edge.getTargetId();
 			Node node = nodeMap.get(targetId);
+//            System.out.println(node.getLabel());
 			if(isShapeNode(node)) {
 				for(Iterator<Edge> iterator = node.getOutgoing().iterator(); iterator.hasNext();) {
 					Edge e = iterator.next();
-					String pid2 = e.getId();
-					System.out.println(pid + " @@@@@@@@@: " + pid2+"                       "+taskId);
-//					taskId +=","+pid2;
-					createProcessNode(pid2, taskId, nodeMap.get(e.getTargetId()));
+                    List<String> copyKeyList = copyList(keyList);
+                    List<String> copyNodeIdList = copyList(nodeIdList);
+                    Node itemNode = nodeMap.get(e.getTargetId());
+                    copyNodeIdList.add(itemNode.getLabel());
+                    copyKeyList.add(e.getLabel());
+//                    System.out.println(ToolsKit.toJsonString(copyNodeIdList));
+					createProcessNode(itemNode, copyKeyList, copyNodeIdList);
 				}
 			}
 			else if(isTaskNode(node)) {
-				taskId += "," + node.getId();
-			}
-//			else if(isEndNode(node)) {
-//				System.out.println(taskId+"            "+edge.getLabel() + "                                           "+node.getLabel());
-//				System.out.println("###############################################");
-//			}
-			createProcessNode(pid, taskId, node);
+                nodeIdList.add(node.getLabel());
+                createProcessNode(node, keyList, nodeIdList);
+            }
+            else if(isEndNode(node)) {
+                nodeIdList.add(node.getLabel());
+
+                System.out.println(ToolsKit.toJsonString(keyList) +"  #########:  " + ToolsKit.toJsonString(nodeIdList));
+            }
 
 		}
 	}
+
+	private List<String> copyList(List<String> nodeIdList) {
+	    return new ArrayList(nodeIdList);
+    }
 
 	private void createProcessNode2(String pid, String spid, Node processNode) {
 		List<Edge> outEdgeList = processNode.getOutgoing();
@@ -218,7 +232,7 @@ public class ProcessDefinition {
 				} else if(isTaskNode(node)) {
 					pid += "," + node.getId();
 				}
-				createProcessNode(pid, spid, node);
+//				createProcessNode(pid, spid, node);
 			} else if(isEndNode(node)) {
 				System.out.println(pid+"            "+spid+"            "+edge.getLabel() + "                                           "+node.getLabel());
 				System.out.println("###############################################");
