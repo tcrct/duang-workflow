@@ -1,5 +1,7 @@
 package com.duangframework.workflow.core;
 
+import java.util.List;
+
 /**
  * @author laotang
  * @date 2019-6-8
@@ -14,6 +16,6 @@ public interface lParserService {
      */
     ProcessDefinition parse(String xml) throws Exception;
 
-    ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception;
+    List<ProcessInstance> deploy(ProcessDefinition processDefinition) throws Exception;
 
 }

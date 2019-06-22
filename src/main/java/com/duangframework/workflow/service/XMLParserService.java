@@ -15,10 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,8 +116,8 @@ public class XMLParserService implements lParserService {
 
 
     @Override
-    public ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception {
-        processDefinition.deploy();
-        return null;
+    public List<ProcessInstance> deploy(ProcessDefinition processDefinition) throws Exception {
+        List<ProcessInstance> processInstanceList = processDefinition.deploy();
+        return processInstanceList;
     }
 }
