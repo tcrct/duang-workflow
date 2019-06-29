@@ -14,5 +14,5 @@ public interface Engine {
 
 	List<ProcessInstance> deploy(ProcessDefinition processDefinition) throws Exception;
 
-	WorkFlow execute(List<ProcessInstance> processInstance) throws Exception;
+	<T> T execute(List<ProcessInstance> processInstance) throws Exception;
 }

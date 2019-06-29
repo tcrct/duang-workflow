@@ -1,6 +1,5 @@
 package com.duangframework.workflow.service;
 
-import com.duangframework.kit.ToolsKit;
 import com.duangframework.utils.Assert;
 import com.duangframework.utils.XmlHelper;
 import com.duangframework.workflow.core.ProcessDefinition;
@@ -11,15 +10,16 @@ import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
 import com.duangframework.workflow.utils.Const;
 import com.duangframework.workflow.utils.NodeEventEnum;
+import com.duangframework.workflow.utils.WorkflowUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
+ * xml文件解析服务
+ *
  * @author laotang
  */
 public class XMLParserService implements lParserService {
@@ -29,35 +29,24 @@ public class XMLParserService implements lParserService {
     @Override
     public ProcessDefinition parse(String xmlDoc) throws Exception {
         Assert.notNull(xmlDoc, "xml resource is null");
-//        logger.debug("xml document is {}", xmlDoc);
+        logger.debug("xml document is {}", xmlDoc);
         // 解析这个XML文档
         return parseDocument(xmlDoc);
     }
 
-    /**
-     * 去除字符串中的空格、回车、换行符、制表符等
-     * @param str
-     * @return
-     */
-    private String replaceSpecialStr(String str) {
-        String repl = "";
-        if (str != null) {
-            Pattern p = Pattern.compile(">(\\s*|\n|\t|\r)<");
-            Matcher m = p.matcher(str);
-            repl = m.replaceAll("><");
-        }
-        return repl;
-    }
+
 
     private ProcessDefinition parseDocument(String xmlDoc) {
-        xmlDoc = replaceSpecialStr(xmlDoc);
+        xmlDoc = WorkflowUtils.replaceSpecialStr4Xml(xmlDoc);
         Assert.notNull(xmlDoc, "document is null");
-        // 获取definitions元素
         XmlHelper xmlHelper = XmlHelper.of(xmlDoc);
+        // 获取root元素
         org.w3c.dom.Node rootNode = xmlHelper.getNode("/mxGraphModel/root");
-        // 开始提取每个子元素，key为ID
+        // 开始提取每个子元素，key为Id(xml里的id)
         Map<String, Node> nodeMap = new HashMap<>(64);
+        // 连接线子元素，key为Id
         Map<String, Edge> edgeMap = new HashMap<>(64);
+        // 取出所有第一级节点
         NodeList nodeList = rootNode.getChildNodes();
         int length = nodeList.getLength();
         try {

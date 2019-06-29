@@ -2,8 +2,6 @@ package com.duangframework.workflow.core.model;
 
 import com.duangframework.kit.ToolsKit;
 import com.duangframework.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
@@ -11,8 +9,6 @@ import org.w3c.dom.NodeList;
  * 工作流的链接线对象
  */
 public abstract class Edge extends BaseElement {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(Edge.class);
 
     /**
      * 源节点引用，即连接线的起始节点ID
@@ -56,7 +52,6 @@ public abstract class Edge extends BaseElement {
     public void parse(org.w3c.dom.Node node) throws Exception {
 
         super.parse(node);
-//        System.out.print(node.getNodeName()+"               ");
 
         Assert.isTrue(null != node, "baseElement is null");
 
@@ -84,27 +79,5 @@ public abstract class Edge extends BaseElement {
             }
         }
     }
-
-    protected void copy(Object obj) {
-
-//        super.copy(obj);
-
-        Edge edge = (Edge) obj;
-
-        // 只拷贝节点ID标志
-        edge.sourceId = this.sourceId;
-        edge.targetId = this.targetId;
-
-        // 拷贝时明确不拷贝节点
-        edge.sourceNode = null;
-        edge.targetNode = null;
-
-    }
-
-//    @Override
-//    public void ignore(ProcessInstance instance) {
-//        setState(State.IGNORED);
-//        LOGGER.debug("edge [{}] -> ignored", getId());
-//    }
 
 }

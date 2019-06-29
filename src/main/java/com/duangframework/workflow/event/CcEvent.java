@@ -3,14 +3,14 @@ package com.duangframework.workflow.event;
 
 import org.w3c.dom.Node;
 
-public class ShapeEvent extends Event {
+public class CcEvent extends Event {
 
 	public void parse(Node node) throws Exception {
 		super.parse(node);
 	}
 
 //	public Object copy() {
-//		ShapeEvent endEvent = new ShapeEvent();
+//		RhombusEvent endEvent = new RhombusEvent();
 //		copy(endEvent);
 //		return endEvent;
 //	}

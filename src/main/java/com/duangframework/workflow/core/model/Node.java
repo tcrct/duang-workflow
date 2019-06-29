@@ -28,41 +28,6 @@ public abstract class Node extends BaseElement {
         super.parse(Node);
     }
 
-    protected void copy(Object obj) {
-
-//        super.copy(obj);
-
-        Node node = (Node) obj;
-
-        // 不拷贝具体的出边入边,明确设置为空
-        node.incoming = new ArrayList<Edge>();
-        node.outgoing = new ArrayList<Edge>();
-
-    }
-/*
-    public void ignore(ProcessInstance instance) {
-
-        setState(State.IGNORED);
-        LOGGER.debug("node [{}] -> ignored", this.getId());
-
-        // 开始扭转边的状态,这些边应该都是NEW的状态
-        List<Edge> edges = outgoing;
-
-        if (null == edges) {
-            return;
-        }
-
-        // 如果有出边,出边一律设置为IGNORED
-        for (Edge edge : edges) {
-
-            Assert.isTrue(State.NEW == edge.getState(),
-                "wrong edge state of " + this.getId() + " " + edge.getId());
-            edge.ignore(instance);
-
-        }
-
-    }
-*/
     /**
      * 默认执行算法,特殊的需要覆盖
      * 

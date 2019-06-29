@@ -3,7 +3,7 @@ package com.duangframework.workflow.utils;
 import com.duangframework.kit.ToolsKit;
 import com.duangframework.mvc.http.enums.ConstEnums;
 import com.duangframework.workflow.core.model.Node;
-import com.duangframework.workflow.event.ShapeEvent;
+import com.duangframework.workflow.event.RhombusEvent;
 import com.duangframework.workflow.event.TaskEvent;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by laotang on 2019/6/11.
@@ -24,7 +26,7 @@ public class WorkflowUtils {
     }
 
     public static boolean isShapeNode(Node node) {
-        return node instanceof ShapeEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+        return node instanceof RhombusEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
     }
 
     public static boolean isTaskNode(Node node) {
@@ -60,5 +62,21 @@ public class WorkflowUtils {
             logger.warn(e.getMessage(), e);
             return "";
         }
+    }
+
+    /**
+     * 去除字符串中的空格、回车、换行符、制表符等
+     * @param str
+     * @return
+     */
+    public static String replaceSpecialStr4Xml(String str) {
+        String repl = "";
+        if (str != null) {
+            Pattern p = Pattern.compile(">(\\s*|\n|\t|\r)<");
+            Matcher m = p.matcher(str);
+            repl = m.replaceAll("><");
+        }
+
+        return repl;
     }
 }

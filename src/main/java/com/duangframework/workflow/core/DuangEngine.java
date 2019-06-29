@@ -49,10 +49,11 @@ public class DuangEngine implements Engine {
     }
 
     @Override
-    public WorkFlow execute(List<ProcessInstance> processInstance) throws Exception {
+    public <T> T execute(List<ProcessInstance> processInstance) throws Exception {
         if(null == algorithmService) {
             throw new NullPointerException("algorithmService is null");
         }
-        return algorithmService.execute(nodeMap, processInstance);
+        return (T)algorithmService.execute(nodeMap, processInstance);
     }
+
 }

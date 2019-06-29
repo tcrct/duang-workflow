@@ -69,6 +69,8 @@ public abstract class BaseElement implements INode {
         Assert.isTrue(null != node, "node is null");
 
         NamedNodeMap namedNodeMap = node.getAttributes();
+        Assert.isTrue(null != namedNodeMap, "namedNodeMap is null");
+
         // 提取ID
         this.id = getValue(namedNodeMap, "id");
         Assert.hasText(id, "id is empty");
@@ -76,6 +78,8 @@ public abstract class BaseElement implements INode {
         this.label = getValue(namedNodeMap, "label");
         // 提取description
         this.description = getValue(namedNodeMap, "description");
+        // 提取href
+        this.href = getValue(namedNodeMap, "href");
     }
 
     public boolean isConnected() {
@@ -96,6 +100,12 @@ public abstract class BaseElement implements INode {
                 '}';
     }
 
+    /**
+     * 取元素值，确保值不为null
+     * @param namedNodeMap
+     * @param key
+     * @return
+     */
     private String getValue(NamedNodeMap namedNodeMap, String key) {
         Node attribute = namedNodeMap.getNamedItem(key);
         if (ToolsKit.isNotEmpty(attribute)) {

@@ -4,10 +4,9 @@ import com.duangframework.kit.ToolsKit;
 import com.duangframework.utils.Assert;
 import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
-import com.duangframework.workflow.event.ShapeEvent;
-import com.duangframework.workflow.event.SymbolEvent;
-import com.duangframework.workflow.event.TaskEvent;
+import com.duangframework.workflow.event.*;
 import com.duangframework.workflow.utils.Const;
+import com.duangframework.workflow.utils.NodeEventEnum;
 
 import java.util.*;
 
@@ -49,7 +48,9 @@ public class ProcessDefinition {
 		// 我们以边来作为主视角来串联起来点和边
 		Collection<Edge> edges = edgeMap.values();
 		for (Edge edge : edges) {
+			// 连接线的源节点，左边节点ID
 			String sourceNodeId = edge.getSourceId();
+			// 连接线的目标节点，右边节点ID
 			String targetNodeId = edge.getTargetId();
 			Node sourceNode = nodeMap.get(sourceNodeId);
 			Node targetNode = nodeMap.get(targetNodeId);
@@ -58,7 +59,7 @@ public class ProcessDefinition {
 
 			// 现在我们已经知道这个边和这2个点都有关系
 
-			// 完善源节点的信息点
+			// 完善源节点的信息点，即确定有多少条线出去连接到下一个节点的
 			sourceNode.getOutgoing().add(edge);
 			sourceNode.setConnected(true);
 
@@ -73,27 +74,26 @@ public class ProcessDefinition {
 		}
  	}
 
-	@SuppressWarnings("unused")
 	public  List<ProcessInstance> deploy() throws Exception {
 		processInstanceList = new ArrayList<>();
 //		 上面已经保证了每个边都用到了,所以只要判断是不是每个点都被使用了
 //		 顺便发现startEvent而且必须唯一
-		SymbolEvent startEvent = null;
+		StartEvent startEvent = null;
 		Collection<Node> nodes = nodeMap.values();
 		for (Node node : nodes) {
 			Assert.isTrue(node.isConnected(), "节点不存在，请检查XML文件 , id is ->" + node.getId()+", label is ->"+node.getDescription());
 			// 开启或结束节点
-			if (node instanceof SymbolEvent) {
+			if (node instanceof StartEvent) {
 				if(isStartNode(node)) {
 					Assert.isTrue(null == startEvent, "开始节点只能有1个!");
-					startEvent = (SymbolEvent) node;
+					startEvent = (StartEvent) node;
 				}
 			}
 		}
 		// 确保一个合格的流程开始是至少有1个起点,不然执行啥
 		Assert.isTrue(null != startEvent, "开始节点不存在，请检查XML文件是否正确!");
          List<String> nodeIdList = new ArrayList<>();
-        nodeIdList.add(startEvent.getLabel());
+        nodeIdList.add(startEvent.getId());
         // 递归取出所有审批线路，如果有分支节点，则以分支节点作为key
 		LinkedHashMap<String,String> conditionMap = new LinkedHashMap<>();
 		createProcessNode(startEvent, conditionMap, nodeIdList);
@@ -101,19 +101,23 @@ public class ProcessDefinition {
 	}
 
 	private boolean isStartNode(Node node) {
-		return ToolsKit.isEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing()) && Const.START_LABEL.equals(node.getLabel());
+		return node instanceof StartEvent && ToolsKit.isEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing()) && Const.START_LABEL.equals(node.getLabel());
 	}
 
 	private boolean isShapeNode(Node node) {
-		return node instanceof ShapeEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+		return node instanceof RhombusEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
 	}
 
 	private boolean isTaskNode(Node node) {
 		return node instanceof TaskEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
 	}
 
+	private boolean isCcNode(Node node) {
+		return node instanceof CcEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+	}
+
 	private boolean isEndNode(Node node) {
-		return ToolsKit.isEmpty(node.getOutgoing()) && ToolsKit.isNotEmpty(node.getIncoming()) && Const.END_LABEL.equals(node.getLabel());
+		return  node instanceof EndEvent && ToolsKit.isEmpty(node.getOutgoing()) && ToolsKit.isNotEmpty(node.getIncoming()) && Const.END_LABEL.equals(node.getLabel());
 	}
 
 	private void createProcessNode(Node processNode, LinkedHashMap<String, String> conditionMap,  List<String> nodeIdList) {
@@ -128,19 +132,22 @@ public class ProcessDefinition {
                     List<String> copyNodeIdList = new ArrayList(nodeIdList);
 					LinkedHashMap<String, String> copyConditionMap = new LinkedHashMap<>(conditionMap);
                     Node itemNode = nodeMap.get(e.getTargetId());
-                    copyNodeIdList.add(itemNode.getLabel());
-					copyConditionMap.put(node.getLabel(), e.getLabel());
+                    copyNodeIdList.add(itemNode.getId());
+					copyConditionMap.put(node.getId(), e.getId());
 					createProcessNode(itemNode, copyConditionMap, copyNodeIdList);
 				}
 			}
-			else if(isTaskNode(node)) {
+			else if(isTaskNode(node) || isCcNode(node)) {
+				if(isCcNode(node)) {
+					nodeId = NodeEventEnum.CC.name().toLowerCase()+"_"+nodeId;
+				}
                 nodeIdList.add(nodeId);
                 createProcessNode(node, conditionMap, nodeIdList);
             }
             else if(isEndNode(node)) {
                 nodeIdList.add(nodeId);
 				ProcessInstance instance = new ProcessInstance(conditionMap, nodeIdList);
-				System.out.println("  #########:  " + instance);
+//				System.out.println("  #########:  " + instance);
 				processInstanceList.add(instance);
             }
 		}

@@ -14,9 +14,11 @@ public enum NodeEventEnum {
     /**
      *
      */
-    SYMBOL("Symbol", "开始或结束节点", SymbolEvent.class),
-    SHAPE("Shape", "条件节点", ShapeEvent.class),
+    START("Start", "开始节点", StartEvent.class),
+    END("End", "结束节点", EndEvent.class),
+    RHOMBUS("Rhombus", "条件节点", RhombusEvent.class),
     TASK("Task", "任务/审批人节点", TaskEvent.class),
+    CC("Cc", "抄送节点", CcEvent.class),
     ;
 
     /**节点类型*/

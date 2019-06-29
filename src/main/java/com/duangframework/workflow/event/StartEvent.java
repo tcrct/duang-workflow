@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 /**
  * @author laotang
  */
-public class SymbolEvent extends Event {
+public class StartEvent extends Event {
 
 	public void parse(Node element) throws Exception {
 
@@ -14,7 +14,7 @@ public class SymbolEvent extends Event {
 	}
 
 //	public Object copy() {
-//		SymbolEvent symbolEvent = new SymbolEvent();
+//		StartEvent symbolEvent = new StartEvent();
 //		copy(symbolEvent);
 //		return symbolEvent;
 //	}

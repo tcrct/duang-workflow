@@ -1,0 +1,320 @@
+<mxGraphModel>
+    <root>
+        <Workflow label="loadXml" description="" href="" id="0">
+            <mxCell/>
+        </Workflow>
+        <Layer label="Default Layer" description="" href="" id="1">
+            <mxCell parent="0"/>
+        </Layer>
+        <Symbol label="开始" description="" href="" id="25">
+            <mxCell style="symbol;image=images/symbols/event.png" parent="1" vertex="1">
+                <mxGeometry x="188" y="294" width="32" height="32" as="geometry"/>
+            </mxCell>
+        </Symbol>
+        <Symbol label="结束" description="" href="" id="26">
+            <mxCell style="symbol;image=images/symbols/event_end.png" parent="1" vertex="1">
+                <mxGeometry x="950" y="290" width="32" height="32" as="geometry"/>
+            </mxCell>
+        </Symbol>
+        <Shape label="合同金额" description="{“type”:&quot;1&quot;}" href="" id="27">
+            <mxCell style="rhombus" parent="1" vertex="1">
+                <mxGeometry x="390" y="290" width="70" height="40" as="geometry"/>
+            </mxCell>
+        </Shape>
+        <Task label="部门经理" description="{&quot;type&quot;:&quot;user&quot;, &quot;id&quot;:&quot;12332dfds13231&quot;,&quot;name&#39;:&quot;laotang&quot;}" href="" id="28">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="600" y="200" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="30">
+            <mxCell style="straightEdge" parent="1" source="108" target="27" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="少于10万" description="" id="31">
+            <mxCell style="straightEdge" parent="1" source="27" target="28" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Task label="部门经理" description="" href="" id="33">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="600" y="290" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label=" 部门经理" description="" href="" id="34">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="600" y="388" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="大于10万小于50万" description="L_35" id="35">
+            <mxCell parent="1" source="27" target="33" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="大于50万" description="L_36" id="36">
+            <mxCell parent="1" source="27" target="34" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="37">
+            <mxCell parent="1" source="33" target="42" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <mxPoint x="820" y="306" as="targetPoint"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Task label="财务" description="" href="" id="39">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="830" y="290" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="41">
+            <mxCell style="straightEdge" parent="1" source="39" target="26" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Task label="副总经理" description="" href="" id="42">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="720" y="290" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="44">
+            <mxCell style="straightEdge" parent="1" source="42" target="39" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Task label="副总经理" description="" href="" id="45">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="720" y="388" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label="总经理" description="" href="" id="46">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="740" y="614" width="110" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="47">
+            <mxCell style="straightEdge" parent="1" source="34" target="45" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="49">
+            <mxCell style="straightEdge" parent="1" source="46" target="39" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="866" y="630"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Shape label="文件类型 " description="" href="" id="51">
+            <mxCell style="rhombus" parent="1" vertex="1">
+                <mxGeometry x="830" y="130" width="70" height="40" as="geometry"/>
+            </mxCell>
+        </Shape>
+        <Task label="部门副总" description="" href="" id="54">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="756" y="206" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label="部门总监" description="" href="" id="55">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="894" y="206" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="57">
+            <mxCell parent="1" source="28" target="51" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="636" y="120"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="协议" description="" id="58">
+            <mxCell style="straightEdge" parent="1" source="51" target="54" edge="1">
+                <mxGeometry x="-0.1667" y="20" relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="790" y="180"/>
+                    </Array>
+                    <mxPoint x="-20" y="20" as="offset"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="合同" description="" id="61">
+            <mxCell parent="1" source="51" target="55" edge="1">
+                <mxGeometry x="0.1628" relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="930" y="180"/>
+                    </Array>
+                    <mxPoint as="offset"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="64">
+            <mxCell style="straightEdge" parent="1" source="55" target="39" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="866" y="260"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="66">
+            <mxCell style="straightEdge" parent="1" source="54" target="39" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="866" y="250"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Shape label="用途" description="" href="" id="79">
+            <mxCell style="rhombus" parent="1" vertex="1">
+                <mxGeometry x="740" y="450" width="50" height="36" as="geometry"/>
+            </mxCell>
+        </Shape>
+        <Edge label="" description="" id="81">
+            <mxCell style="straightEdge" parent="1" source="45" target="79" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Task label="行政经理" description="" href="" id="82">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="668" y="542" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label="法务经理" description="" href="" id="83">
+            <mxCell parent="1" vertex="1">
+                <mxGeometry x="780" y="542" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="内部" description="" id="84">
+            <mxCell style="straightEdge" parent="1" source="79" target="82" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="708" y="490"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="外部" description="" id="85">
+            <mxCell style="straightEdge" parent="1" source="79" target="83" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="816" y="490"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="87">
+            <mxCell parent="1" source="83" target="46" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Shape label="归类" description="" href="" id="91">
+            <mxCell style="rhombus" vertex="1" parent="1">
+                <mxGeometry x="490" y="533" width="60" height="50" as="geometry"/>
+            </mxCell>
+        </Shape>
+        <Edge label="" description="" id="92">
+            <mxCell style="straightEdge" edge="1" parent="1" source="101" target="91">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Task label="老百姓" description="" href="" id="93">
+            <mxCell vertex="1" parent="1">
+                <mxGeometry x="345" y="490" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label="有关单位" description="" href="" id="94">
+            <mxCell vertex="1" parent="1">
+                <mxGeometry x="345" y="583" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="普通" description="" id="96">
+            <mxCell style="straightEdge" edge="1" parent="1" source="91" target="93">
+                <mxGeometry relative="1" as="geometry">
+                    <mxPoint x="505" y="558" as="sourcePoint"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="机密" description="" id="97">
+            <mxCell style="straightEdge" edge="1" parent="1" source="91" target="94">
+                <mxGeometry relative="1" as="geometry">
+                    <mxPoint x="505" y="558" as="sourcePoint"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Task label="法务经理" description="" href="" id="101">
+            <mxCell vertex="1" parent="1">
+                <mxGeometry x="580" y="542" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="102">
+            <mxCell style="straightEdge" edge="1" parent="1" source="82" target="101">
+                <mxGeometry relative="1" as="geometry">
+                    <mxPoint x="668" y="558" as="sourcePoint"/>
+                    <mxPoint x="570" y="558" as="targetPoint"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Task label="神秘人" description="" href="" id="103">
+            <mxCell vertex="1" parent="1">
+                <mxGeometry x="220" y="542" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="104">
+            <mxCell style="straightEdge" edge="1" parent="1" source="93" target="103">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="105">
+            <mxCell style="straightEdge" edge="1" parent="1" source="94" target="103">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="106">
+            <mxCell style="straightEdge" edge="1" parent="1" source="103" target="46">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="400" y="700"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Task label="老唐" description="" href="" id="108">
+            <mxCell vertex="1" parent="1">
+                <mxGeometry x="273.20001220703125" y="294" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="109">
+            <mxCell style="straightEdge" edge="1" parent="1" source="25" target="108">
+                <mxGeometry relative="1" as="geometry">
+                    <mxPoint x="220" y="310" as="sourcePoint"/>
+                    <mxPoint x="390" y="310" as="targetPoint"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Task label="神秘人2号" description="" href="" id="110">
+            <mxCell vertex="1" parent="1">
+                <mxGeometry x="381" y="180" width="72" height="32" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="补盖印章" description="" id="112">
+            <mxCell style="straightEdge" edge="1" parent="1" source="27" target="110">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Symbol label="结束" description="" href="" id="113">
+            <mxCell style="symbol;image=images/symbols/event_end.png" vertex="1" parent="1">
+                <mxGeometry x="401" y="60" width="32" height="32" as="geometry"/>
+            </mxCell>
+        </Symbol>
+        <Edge label="" description="" id="114">
+            <mxCell style="straightEdge" edge="1" parent="1" source="110" target="113">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+    </root>
+</mxGraphModel>
