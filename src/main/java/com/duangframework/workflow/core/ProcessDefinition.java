@@ -36,6 +36,10 @@ public class ProcessDefinition {
 		return nodeMap;
 	}
 
+	public Map<String, Edge> getEdgeMap() {
+		return edgeMap;
+	}
+
 	/**
 	 * 点和边进行关联->形成1个完整的拓扑图 ,否则孤立的没有意义
 	 * 
@@ -104,7 +108,7 @@ public class ProcessDefinition {
 		return node instanceof StartEvent && ToolsKit.isEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing()) && Const.START_LABEL.equals(node.getLabel());
 	}
 
-	private boolean isShapeNode(Node node) {
+	private boolean isRhombusNode(Node node) {
 		return node instanceof RhombusEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
 	}
 
@@ -122,34 +126,49 @@ public class ProcessDefinition {
 
 	private void createProcessNode(Node processNode, LinkedHashMap<String, String> conditionMap,  List<String> nodeIdList) {
 		List<Edge> outEdgeList = processNode.getOutgoing();
-		for (Edge edge : outEdgeList) {
-			String targetId = edge.getTargetId();
-			Node node = nodeMap.get(targetId);
-			String nodeId = node.getId();
-			if(isShapeNode(node)) {
-				for(Iterator<Edge> iterator = node.getOutgoing().iterator(); iterator.hasNext();) {
-					Edge e = iterator.next();
-                    List<String> copyNodeIdList = new ArrayList(nodeIdList);
-					LinkedHashMap<String, String> copyConditionMap = new LinkedHashMap<>(conditionMap);
-                    Node itemNode = nodeMap.get(e.getTargetId());
-                    copyNodeIdList.add(itemNode.getId());
-					copyConditionMap.put(node.getId(), e.getId());
-					createProcessNode(itemNode, copyConditionMap, copyNodeIdList);
+		/** 如果没有出边的线，则说明可能到了结束节点，这个时候，需要判定一下结束节点的上一个节点是否分支条件节点
+		 * 如果是条件节点，即结束节点的上一节点是是分支条件节点，需要将分支条件添加到子流程实例，产生记录保存到数据库
+		 */
+		if(outEdgeList.isEmpty()) {
+			List<Edge> inEdgeList =processNode.getIncoming();
+			for(Edge edge : inEdgeList) {
+				String sourceId = edge.getSourceId();
+				Node node = nodeMap.get(sourceId);
+				if(isRhombusNode(node) && edge.getLabel().length() > 0) {
+					conditionMap.put(node.getId(), edge.getId());
+					ProcessInstance instance = new ProcessInstance(conditionMap, nodeIdList);
+//					System.out.println("  #########:  " + instance);
+					processInstanceList.add(instance);
 				}
 			}
-			else if(isTaskNode(node) || isCcNode(node)) {
-				if(isCcNode(node)) {
-					nodeId = NodeEventEnum.CC.name().toLowerCase()+"_"+nodeId;
+		} else {
+			for (Edge edge : outEdgeList) {
+				String targetId = edge.getTargetId();
+				Node node = nodeMap.get(targetId);
+				String nodeId = node.getId();
+				if (isRhombusNode(node)) {
+					for (Iterator<Edge> iterator = node.getOutgoing().iterator(); iterator.hasNext(); ) {
+						Edge e = iterator.next();
+						List<String> copyNodeIdList = new ArrayList(nodeIdList);
+						LinkedHashMap<String, String> copyConditionMap = new LinkedHashMap<>(conditionMap);
+						Node itemNode = nodeMap.get(e.getTargetId());
+						copyNodeIdList.add(itemNode.getId());
+						copyConditionMap.put(node.getId(), e.getId());
+						createProcessNode(itemNode, copyConditionMap, copyNodeIdList);
+					}
+				} else if (isTaskNode(node) || isCcNode(node)) {
+					if (isCcNode(node)) {
+						nodeId = NodeEventEnum.CC.name().toLowerCase() + "_" + nodeId;
+					}
+					nodeIdList.add(nodeId);
+					createProcessNode(node, conditionMap, nodeIdList);
+				} else if (isEndNode(node)) {
+					nodeIdList.add(nodeId);
+					ProcessInstance instance = new ProcessInstance(conditionMap, nodeIdList);
+//					System.out.println("  #########:  " + instance);
+					processInstanceList.add(instance);
 				}
-                nodeIdList.add(nodeId);
-                createProcessNode(node, conditionMap, nodeIdList);
-            }
-            else if(isEndNode(node)) {
-                nodeIdList.add(nodeId);
-				ProcessInstance instance = new ProcessInstance(conditionMap, nodeIdList);
-//				System.out.println("  #########:  " + instance);
-				processInstanceList.add(instance);
-            }
+			}
 		}
 	}
 }

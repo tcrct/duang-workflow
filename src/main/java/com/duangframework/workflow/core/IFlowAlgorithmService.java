@@ -1,5 +1,6 @@
 package com.duangframework.workflow.core;
 
+import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
 
 import java.util.List;
@@ -20,10 +21,11 @@ public interface IFlowAlgorithmService {
 
     /**
      * 业务逻辑算法实现
+     * @param edgeMap   链接线集合
      * @param nodeMap   节点集合
      * @param processInstanceList   工作流进程集合
      * @return
      * @throws Exception
      */
-    <T> T execute(Map<String, Node> nodeMap, List<ProcessInstance> processInstanceList) throws Exception;
+    <T> T execute(Map<String, Edge> edgeMap, Map<String, Node> nodeMap, List<ProcessInstance> processInstanceList) throws Exception;
 }

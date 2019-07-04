@@ -6,63 +6,123 @@
         <Layer label="Default Layer" id="1">
             <mxCell parent="0"/>
         </Layer>
-        <Start label="开始流程" description="" href="" id="32">
+        <Start label="开始流程" description="" href="" id="121">
             <mxCell style="start;image=../../../static/images/mxGraph/symbols/start.png" parent="1" vertex="1">
-                <mxGeometry x="140" y="370" width="60" height="60" as="geometry"/>
+                <mxGeometry x="160" y="350" width="60" height="60" as="geometry"/>
             </mxCell>
         </Start>
-        <Rhombus label="条件" description="" href="" id="33">
+        <Rhombus label="条件" description="" href="" id="122">
             <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" parent="1" vertex="1">
-                <mxGeometry x="310" y="370" width="60" height="60" as="geometry"/>
+                <mxGeometry x="280" y="350" width="60" height="60" as="geometry"/>
             </mxCell>
         </Rhombus>
-        <Task label="5人会签" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c691d2553837344133787d9,5c691e4a61d7131b47ae56ed,5c691e5061d7131b47ae56ee,5c691e6061d7131b47ae56ef,5c691e6b61d7131b47ae56f0&quot;,&quot;role&quot;:&quot;&quot;,&quot;authModel&quot;:&quot;and&quot;}" href="" id="34">
+        <Task label="5人或签" description="{&quot;type&quot;:&quot;users&quot;,&quot;approverUserId&quot;:&quot;5c691e6b61d7131b47ae56f0,5c70a7c1fb9d2c2ba69060e1,5c6fd2d646b90c69cce13a70,5c839a6cdb9d6a36ddff2ea1,5c70b4cf6a6cd440fd2b2d5b&quot;,&quot;authModel&quot;:&quot;or&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="123">
             <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
-                <mxGeometry x="450" y="260" width="100" height="60" as="geometry"/>
+                <mxGeometry x="410" y="252" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
-        <Task label="审核人" description="" href="" id="35">
+        <Task label="5种岗位或签" description="{&quot;type&quot;:&quot; post&quot;,&quot;approverUserId&quot;:&quot;5cee633b068ea96c327fcd62,5cff0d13c25cd51475c2daba,5c92e0754dcd5523bcad0be3,5c848bf850f2a7331160d383,5c848bbe50f2a7331160d381&quot;,&quot;authModel&quot;:&quot;or&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="124">
             <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
-                <mxGeometry x="450" y="480" width="100" height="60" as="geometry"/>
+                <mxGeometry x="410" y="356" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
-        <Cc label="请选择抄送人" description="" href="" id="36">
+        <Task label="5种岗位会签" description="{&quot;type&quot;:&quot; post&quot;,&quot;approverUserId&quot;:&quot;5cff0d13c25cd51475c2daba,5cee633b068ea96c327fcd62,5c92e0754dcd5523bcad0be3,5c848bf850f2a7331160d383,5c848bbe50f2a7331160d381&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="125">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
+                <mxGeometry x="410" y="500" width="90" height="48" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Cc label="欧阳娜,程丹秀,安吉拉,曹操" description="{&quot;approverUserId&quot;:&quot;5c70a7c1fb9d2c2ba69060e1,5c70b4cf6a6cd440fd2b2d5b,5c839a6cdb9d6a36ddff2ea1,5ca32a749f4e0603ad705b2e&quot;,&quot;nodeType&quot;:&quot;Cc&quot;}" href="" id="126">
             <mxCell style="symbol;image=../../../static/images/mxGraph/chaosong_1.png" parent="1" vertex="1">
-                <mxGeometry x="660" y="370" width="60" height="60" as="geometry"/>
+                <mxGeometry x="620" y="350" width="60" height="60" as="geometry"/>
             </mxCell>
         </Cc>
-        <End label="结束流程" description="" href="" id="37">
+        <End label="结束流程" description="" href="" id="127">
             <mxCell style="end;image=../../../static/images/mxGraph/symbols/end.png" parent="1" vertex="1">
-                <mxGeometry x="860" y="370" width="60" height="60" as="geometry"/>
+                <mxGeometry x="1130" y="340" width="60" height="60" as="geometry"/>
             </mxCell>
         </End>
-        <Edge label="" description="" id="38">
-            <mxCell style="straightEdge" parent="1" source="32" target="33" edge="1">
+        <Edge label="" description="" id="128">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="121" target="122" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
-        <Edge label="" description="" id="39">
-            <mxCell style="straightEdge" parent="1" source="33" target="34" edge="1">
+        <Edge label="三生三世十里桃花" description="" id="129">
+            <mxCell style="straightEdge;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="122" target="123" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
-        <Edge label="" description="" id="40">
-            <mxCell style="straightEdge" parent="1" source="33" target="35" edge="1">
+        <Edge label="水术师瑟丝比娅" description="" id="130">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="122" target="124" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
-        <Edge label="" description="" id="41">
-            <mxCell style="straightEdge" parent="1" source="35" target="36" edge="1">
+        <Edge label="是飒飒啊啊" description="" id="131">
+            <mxCell style="straightEdge;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="122" target="125" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
-        <Edge label="" description="" id="42">
-            <mxCell style="straightEdge" parent="1" source="34" target="36" edge="1">
+        <Edge label="" description="" id="132">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="124" target="126" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
-        <Edge label="" description="" id="43">
-            <mxCell style="straightEdge" parent="1" source="36" target="37" edge="1">
+        <Cc label="欧阳娜,张三,程丹秀,安吉拉,章艰军" description="{&quot;approverUserId&quot;:&quot;5c70a7c1fb9d2c2ba69060e1,5c6fd2d646b90c69cce13a70,5c70b4cf6a6cd440fd2b2d5b,5c839a6cdb9d6a36ddff2ea1,5c6fd1ae46b90c69cce13a6f&quot;,&quot;nodeType&quot;:&quot;Cc&quot;}" href="" id="133">
+            <mxCell style="symbol;image=../../../static/images/mxGraph/chaosong_1.png" parent="1" vertex="1">
+                <mxGeometry x="600" y="60" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Cc>
+        <Cc label="欧阳娜,张三" description="{&quot;approverUserId&quot;:&quot;5c70a7c1fb9d2c2ba69060e1,5c6fd2d646b90c69cce13a70&quot;,&quot;nodeType&quot;:&quot;Cc&quot;}" href="" id="134">
+            <mxCell style="symbol;image=../../../static/images/mxGraph/chaosong_1.png" parent="1" vertex="1">
+                <mxGeometry x="620" y="630" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Cc>
+        <Edge label="" description="" id="135">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="123" target="133" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="136">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="125" target="134" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="137">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="134" target="127" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="138">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="126" target="127" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Rhombus label="条件" description="" href="" id="140">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+                <mxGeometry x="870" y="120" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Rhombus>
+        <Edge label="" description="" id="143">
+            <mxCell style="straightEdge;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="133" target="140">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Task label="管理员会签" description="{&quot;type&quot;:&quot; post&quot;,&quot;approverUserId&quot;:&quot;5c848bf850f2a7331160d383&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="144">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+                <mxGeometry x="1040" y="66" width="90" height="48" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="" description="" id="147">
+            <mxCell style="straightEdge" edge="1" parent="1" source="144" target="127">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="外部文件" description="" id="148">
+            <mxCell style="straightEdge" edge="1" parent="1" source="140" target="144">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="内部文件" description="" id="150">
+            <mxCell style="straightEdge" edge="1" parent="1" source="140" target="127">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>

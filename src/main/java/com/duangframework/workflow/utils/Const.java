@@ -10,4 +10,8 @@ public class Const {
 
     public static final String EDGE_NODE_NAME = "Edge";
 
+    public static final String CC_NODE_FIELD= "cc";
+
+    public static final String TASK_NODE_FIELD = "task";
+
 }
