@@ -142,7 +142,7 @@ public class ProcessDefinition {
      * @param processNode   进程节点
      * @param actionList
      */
-//    private static List<BaseElement> baseElementList = new ArrayList<>();
+    private static List<BaseElement> baseElementList = new ArrayList<>();
     private void createProcessNode(Node processNode, List<BaseElement> actionList) {
         List<Edge> outEdgeList = processNode.getOutgoing();
         for (Edge edge : outEdgeList) {
@@ -153,16 +153,17 @@ public class ProcessDefinition {
             Node node = nodeMap.get(targetId);
             Assert.isTrue(null != node, "根据目标节点ID[" + targetId + "]找不到对应的节点，请检查XML文件是否正确!");
 //            Action action = new Action(edgeNode, node);
-
+            actionList.add(edgeNode);
+            actionList.add(node);
+//            List<BaseElement> baseElementList = Const.deepCopy(actionList);
+//            System.out.println("baseElementList.hashCode():" + baseElementList.hashCode()+"                       "+actionList.hashCode());
             // 如果遇到条件分支节点，则复制线路，再进行递归
             if (isRhombusNode(node)) {
                 List<Edge> outGoingEdgeList = node.getOutgoing();
                 Assert.isTrue(null != outGoingEdgeList, "条件分支节点[" + node.getId() + "]没有出边线，请检查XML文件是否正确!");
-                actionList.add(edgeNode);
-                actionList.add(node);
-                List<BaseElement> baseElementList = new ArrayList<>(actionList);
+				baseElementList = Const.deepCopy(actionList);
                 for (Edge e : outGoingEdgeList) {
-                    List<BaseElement> copyActionList = new ArrayList(baseElementList);
+                    List<BaseElement> copyActionList = new ArrayList<>(baseElementList);
                     Edge outGoEdgeNode = edgeMap.get(e.getId());
                     copyActionList.add(outGoEdgeNode);
                     Node outGoingNode = nodeMap.get(e.getTargetId());
@@ -173,12 +174,8 @@ public class ProcessDefinition {
                     createProcessNode(outGoingNode, copyActionList);
                 }
             } else if (isTaskNode(node) || isCcNode(node)) {
-                actionList.add(edgeNode);
-                actionList.add(node);
                 createProcessNode(node, actionList);
             } else if (isEndNode(node)) {
-                actionList.add(edgeNode);
-                actionList.add(node);
                 ProcessInstance instance = new ProcessInstance(actionList);
                 for(BaseElement action1 : instance.getActionList()) {
                     System.out.print(action1.getName()+"("+action1.getId()+"), ");
