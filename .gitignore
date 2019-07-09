@@ -24,7 +24,7 @@ hs_err_pid*
 /.settings/
 /bin/
 /.idea/
-App.java
-AppTest.java
-test.java
+#App.java
+#AppTest.java
+#test.java
 
