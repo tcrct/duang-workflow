@@ -3,6 +3,7 @@ package com.duangframework.workflow.core.model;
 
 import com.duangframework.kit.ToolsKit;
 import com.duangframework.utils.Assert;
+import com.duangframework.workflow.utils.NodeEventEnum;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -16,6 +17,8 @@ public abstract class BaseElement implements INode {
     private String label;
     private String description;
     private String href;
+    /**标签名称*/
+    private String name;
     /**
      * 是否真的被使用到了,没有使用的视为无效配置,会报异常
      */
@@ -25,11 +28,12 @@ public abstract class BaseElement implements INode {
     public BaseElement() {
     }
 
-    public BaseElement(String id, String label, String description, String href) {
+    public BaseElement(String id, String label, String description, String href, String name) {
         this.id = id;
         this.label = label;
         this.description = description;
         this.href = href;
+        this.name = name;
     }
 
     public String getId() {
@@ -64,6 +68,14 @@ public abstract class BaseElement implements INode {
         this.href = href;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void parse(org.w3c.dom.Node node) throws Exception {
 
         Assert.isTrue(null != node, "node is null");
@@ -80,6 +92,8 @@ public abstract class BaseElement implements INode {
         this.description = getValue(namedNodeMap, "description");
         // 提取href
         this.href = getValue(namedNodeMap, "href");
+        // 标签名称
+        this.name = node.getNodeName().trim();
     }
 
     public boolean isConnected() {
