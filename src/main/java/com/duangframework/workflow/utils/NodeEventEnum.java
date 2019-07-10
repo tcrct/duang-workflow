@@ -1,6 +1,5 @@
 package com.duangframework.workflow.utils;
 
-import com.duangframework.kit.ObjectKit;
 import com.duangframework.workflow.event.*;
 
 /**
@@ -41,6 +40,6 @@ public enum NodeEventEnum {
         return desc;
     }
     public Event getEvent() {
-        return ObjectKit.newInstance(eventClass);
+        return WorkflowUtils.newInstance(eventClass);
     }
 }

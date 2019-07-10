@@ -1,18 +1,12 @@
 package com.duangframework.workflow.service;
 
-import com.duangframework.utils.Assert;
-import com.duangframework.utils.XmlHelper;
 import com.duangframework.workflow.core.ProcessDefinition;
 import com.duangframework.workflow.core.ProcessInstance;
 import com.duangframework.workflow.event.*;
 import com.duangframework.workflow.core.lParserService;
 import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
-import com.duangframework.workflow.utils.Const;
-import com.duangframework.workflow.utils.NodeEventEnum;
-import com.duangframework.workflow.utils.WorkflowUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.duangframework.workflow.utils.*;
 import org.w3c.dom.NodeList;
 
 import java.util.*;
@@ -24,12 +18,10 @@ import java.util.*;
  */
 public class XMLParserService implements lParserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(XMLParserService.class);
 
     @Override
     public ProcessDefinition parse(String xmlDoc) throws Exception {
         Assert.notNull(xmlDoc, "xml resource is null");
-        logger.debug("xml document is {}", xmlDoc);
         // 解析这个XML文档
         return parseDocument(xmlDoc);
     }
@@ -73,7 +65,6 @@ public class XMLParserService implements lParserService {
             ProcessDefinition topology = new ProcessDefinition(nodeMap, edgeMap);
             return topology;
         } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
             return null;
         }
 
@@ -99,7 +90,7 @@ public class XMLParserService implements lParserService {
         sameKeySet.retainAll(edgeKeySet);
         Assert.isTrue(null == sameKeySet || 0 == sameKeySet.size(), "duplicate id -> " + sameKeySet);
 
-        logger.info("两个集合之间没有重复的ID");
+        System.out.println("两个集合之间没有重复的ID");
 
     }
 

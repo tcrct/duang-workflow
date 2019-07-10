@@ -14,5 +14,4 @@ public class EdgeEvent extends Edge {
 		super.parse(node);
 	}
 
-
 }

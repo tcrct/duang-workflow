@@ -1,7 +1,7 @@
 package com.duangframework.workflow.core.model;
 
-import com.duangframework.kit.ToolsKit;
-import com.duangframework.utils.Assert;
+import com.duangframework.workflow.utils.Assert;
+import com.duangframework.workflow.utils.WorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
@@ -71,10 +71,10 @@ public abstract class Edge extends BaseElement {
             org.w3c.dom.Node sourceNode = attributesNodeMap.getNamedItem("source");
             // 提取targetId
             org.w3c.dom.Node targetNode = attributesNodeMap.getNamedItem("target");
-            if(ToolsKit.isNotEmpty(sourceNode)) {
+            if(WorkflowUtils.isNotEmpty(sourceNode)) {
                 this.sourceId = sourceNode.getNodeValue();
             }
-            if(ToolsKit.isNotEmpty(targetNode)) {
+            if(WorkflowUtils.isNotEmpty(targetNode)) {
                 this.targetId = targetNode.getNodeValue();
             }
         }

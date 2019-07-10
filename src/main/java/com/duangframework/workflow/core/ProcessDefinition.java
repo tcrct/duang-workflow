@@ -1,14 +1,13 @@
 package com.duangframework.workflow.core;
 
-import com.duangframework.kit.ToolsKit;
-import com.duangframework.utils.Assert;
 import com.duangframework.workflow.core.model.Action;
 import com.duangframework.workflow.core.model.BaseElement;
 import com.duangframework.workflow.core.model.Edge;
 import com.duangframework.workflow.core.model.Node;
 import com.duangframework.workflow.event.*;
+import com.duangframework.workflow.utils.Assert;
 import com.duangframework.workflow.utils.Const;
-import com.duangframework.workflow.utils.NodeEventEnum;
+import com.duangframework.workflow.utils.WorkflowUtils;
 
 import java.util.*;
 
@@ -22,7 +21,6 @@ public class ProcessDefinition {
 	private Map<String, Edge> edgeMap;
 
 	private List<ProcessInstance> processInstanceList;
-    private List<ProcessInstance2> processInstanceList2;
 
 	public ProcessDefinition(Map<String, Node> nodeMap, Map<String, Edge> edgeMap) throws Exception {
 
@@ -83,7 +81,6 @@ public class ProcessDefinition {
 
 	public  List<ProcessInstance> deploy() throws Exception {
 		processInstanceList = new ArrayList<>();
-        processInstanceList2 = new ArrayList<>();
 //		 上面已经保证了每个边都用到了,所以只要判断是不是每个点都被使用了
 //		 顺便发现startEvent而且必须唯一
 		StartEvent startEvent = null;
@@ -96,19 +93,11 @@ public class ProcessDefinition {
 				if(isStartNode(node)) {
 					Assert.isTrue(null == startEvent, "开始节点只能有1个!");
 					startEvent = (StartEvent) node;
-//                    action = new Action(new EdgeEvent(),node);
 				}
 			}
 		}
 		// 确保一个合格的流程开始是至少有1个起点,不然执行啥
 		Assert.isTrue(null != startEvent, "开始节点不存在，请检查XML文件是否正确!");
-		/*
-         List<String> nodeIdList = new ArrayList<>();
-        nodeIdList.add(startEvent.getId());
-        // 递归取出所有审批线路，如果有分支节点，则以分支节点作为key
-		LinkedHashMap<String,String> conditionMap = new LinkedHashMap<>();
-		createProcessNode2(startEvent, conditionMap, nodeIdList);
-		*/
 //        List<Action> actionList = new ArrayList<>();
         List<BaseElement> actionList = new ArrayList<>();
         actionList.add(startEvent);
@@ -118,23 +107,23 @@ public class ProcessDefinition {
 	}
 
 	private boolean isStartNode(Node node) {
-		return node instanceof StartEvent && ToolsKit.isEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing()) && Const.START_LABEL.equals(node.getLabel());
+		return node instanceof StartEvent && WorkflowUtils.isEmpty(node.getIncoming()) && WorkflowUtils.isNotEmpty(node.getOutgoing()) && Const.START_LABEL.equals(node.getLabel());
 	}
 
 	private boolean isRhombusNode(Node node) {
-		return node instanceof RhombusEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+		return node instanceof RhombusEvent && WorkflowUtils.isNotEmpty(node.getIncoming()) && WorkflowUtils.isNotEmpty(node.getOutgoing());
 	}
 
 	private boolean isTaskNode(Node node) {
-		return node instanceof TaskEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+		return node instanceof TaskEvent && WorkflowUtils.isNotEmpty(node.getIncoming()) && WorkflowUtils.isNotEmpty(node.getOutgoing());
 	}
 
 	private boolean isCcNode(Node node) {
-		return node instanceof CcEvent && ToolsKit.isNotEmpty(node.getIncoming()) && ToolsKit.isNotEmpty(node.getOutgoing());
+		return node instanceof CcEvent && WorkflowUtils.isNotEmpty(node.getIncoming()) && WorkflowUtils.isNotEmpty(node.getOutgoing());
 	}
 
 	private boolean isEndNode(Node node) {
-		return  node instanceof EndEvent && ToolsKit.isEmpty(node.getOutgoing()) && ToolsKit.isNotEmpty(node.getIncoming()) && Const.END_LABEL.equals(node.getLabel());
+		return  node instanceof EndEvent && WorkflowUtils.isEmpty(node.getOutgoing()) && WorkflowUtils.isNotEmpty(node.getIncoming()) && Const.END_LABEL.equals(node.getLabel());
 	}
 
     /**
@@ -142,8 +131,6 @@ public class ProcessDefinition {
      * @param processNode   进程节点
      * @param actionList
      */
-//    private static List<BaseElement> baseElementList = new ArrayList<>();
-	private static Stack stack = new Stack();
     private void createProcessNode(Node processNode, List<BaseElement> actionList) {
         List<Edge> outEdgeList = processNode.getOutgoing();
         for (Edge edge : outEdgeList) {
@@ -153,6 +140,7 @@ public class ProcessDefinition {
             // 目标节点
             Node node = nodeMap.get(targetId);
             Assert.isTrue(null != node, "根据目标节点ID[" + targetId + "]找不到对应的节点，请检查XML文件是否正确!");
+            // 添加线路所经过的所有节点
             actionList.add(edgeNode);
             actionList.add(node);
             // 如果遇到条件分支节点，则复制线路，再进行递归
@@ -165,74 +153,26 @@ public class ProcessDefinition {
                     Node outGoingNode = nodeMap.get(e.getTargetId());
 					actionList.add(outGoingNode);
                     createProcessNode(outGoingNode, actionList);
+                    // 递归退出时，删除掉添加的节点，让集合回退到开始进行递归时的状态
 					actionList.remove(outGoingNode);
 					actionList.remove(outGoEdgeNode);
                 }
+				// 如果审核人节点或抄送人节点，则继续递归下一节点
             } else if (isTaskNode(node) || isCcNode(node)) {
                 createProcessNode(node, actionList);
+				// 如果结事节点，则转换内容
             } else if (isEndNode(node)) {
-                ProcessInstance instance = new ProcessInstance(actionList);
-                for(BaseElement action1 : instance.getActionList()) {
-                    System.out.print(action1.getName()+"("+action1.getId()+"), ");
+                List<Action> actions = new ArrayList(actionList.size());
+                for(BaseElement element : actionList) {
+					System.out.print(element.getName()+"("+element.getId()+"), ");
+					actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName()));
                 }
 				System.out.println("");
-                processInstanceList.add(instance);
+                processInstanceList.add(new ProcessInstance(actions));
             }
+			// 递归退出时，删除掉添加的节点，让集合回退到开始进行递归时的状态
             actionList.remove(node);
             actionList.remove(edgeNode);
         }
     }
-
-	private void createProcessNode2(Node processNode, LinkedHashMap<String, String> conditionMap,  List<String> nodeIdList) {
-		List<Edge> outEdgeList = processNode.getOutgoing();
-		/** 如果没有出边的线，则说明可能到了结束节点，这个时候，需要判定一下结束节点的上一个节点是否分支条件节点
-		 * 如果是条件节点，即结束节点的上一节点是是分支条件节点，需要将分支条件添加到子流程实例，产生记录保存到数据库
-		 */
-		if(outEdgeList.isEmpty()) {
-			List<Edge> inEdgeList =processNode.getIncoming();
-			for(Edge edge : inEdgeList) {
-				String sourceId = edge.getSourceId();
-				Node node = nodeMap.get(sourceId);
-				if(isRhombusNode(node) && edge.getLabel().length() > 0) {
-					conditionMap.put(node.getId(), edge.getId());
-					ProcessInstance2 instance = new ProcessInstance2(conditionMap, nodeIdList);
-//					System.out.println("  #########:  " + instance);
-					processInstanceList2.add(instance);
-				}
-			}
-		} else {
-			for (Edge edge : outEdgeList) {
-				String targetId = edge.getTargetId();
-				Node node = nodeMap.get(targetId);
-//				String nodeId = node.getId();
-                String nodeId = node.getLabel();
-                List<String> copyNodeIdList = new ArrayList(nodeIdList);
-                LinkedHashMap<String, String> copyConditionMap = new LinkedHashMap<>(conditionMap);
-				if (isRhombusNode(node)) {
-					for (Iterator<Edge> iterator = node.getOutgoing().iterator(); iterator.hasNext(); ) {
-						Edge e = iterator.next();
-						List<String> copyNodeIdList2 = new ArrayList(nodeIdList);
-						LinkedHashMap<String, String> copyConditionMap2 = new LinkedHashMap<>(conditionMap);
-						Node itemNode = nodeMap.get(e.getTargetId());
-//						copyNodeIdList.add(itemNode.getId());
-//                        copyConditionMap.put(node.getId(), e.getId());
-                        copyNodeIdList2.add(itemNode.getLabel());
-                        copyConditionMap2.put(nodeId, e.getLabel());
-						createProcessNode2(itemNode, copyConditionMap2, copyNodeIdList2);
-					}
-				} else if (isTaskNode(node) || isCcNode(node)) {
-					if (isCcNode(node)) {
-						nodeId = NodeEventEnum.CC.name().toLowerCase() + "_" + nodeId;
-					}
-                    copyNodeIdList.add(nodeId);
-					createProcessNode2(node, copyConditionMap, copyNodeIdList);
-				} else if (isEndNode(node)) {
-                    copyNodeIdList.add(nodeId);
-					ProcessInstance2 instance = new ProcessInstance2(copyConditionMap, copyNodeIdList);
-					System.out.println("  #########:  " + instance);
-					processInstanceList2.add(instance);
-				}
-			}
-		}
-	}
 }

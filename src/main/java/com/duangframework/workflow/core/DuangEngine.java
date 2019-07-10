@@ -1,12 +1,8 @@
 package com.duangframework.workflow.core;
 
-import com.duangframework.workflow.core.model.Edge;
-import com.duangframework.workflow.core.model.Node;
-import com.duangframework.workflow.entity.WorkFlow;
 import com.duangframework.workflow.service.XMLParserService;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 工作流引擎
@@ -16,8 +12,6 @@ public class DuangEngine implements Engine {
 
     private lParserService iParserService;
     private IFlowAlgorithmService algorithmService;
-    private Map<String, Node> nodeMap;
-    private Map<String, Edge> edgeMap;
 
     public DuangEngine() {
         this.iParserService = new XMLParserService();
@@ -46,8 +40,6 @@ public class DuangEngine implements Engine {
     @Override
     public List<ProcessInstance> deploy(ProcessDefinition processDefinition) throws Exception {
         List<ProcessInstance> processInstances =  iParserService.deploy(processDefinition);
-        this.nodeMap = processDefinition.getNodeMap();
-        this.edgeMap = processDefinition.getEdgeMap();
         return processInstances;
     }
 
@@ -56,7 +48,7 @@ public class DuangEngine implements Engine {
         if(null == algorithmService) {
             throw new NullPointerException("algorithmService is null");
         }
-        return (T)algorithmService.execute(edgeMap, nodeMap, processInstance);
+        return (T)algorithmService.execute(processInstance);
     }
 
 }

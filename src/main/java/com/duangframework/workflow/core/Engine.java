@@ -1,7 +1,5 @@
 package com.duangframework.workflow.core;
 
-import com.duangframework.workflow.entity.WorkFlow;
-
 import java.util.List;
 
 /**

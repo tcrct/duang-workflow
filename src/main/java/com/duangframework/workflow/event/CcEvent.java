@@ -9,14 +9,4 @@ public class CcEvent extends Event {
 		super.parse(node);
 	}
 
-//	public Object copy() {
-//		RhombusEvent endEvent = new RhombusEvent();
-//		copy(endEvent);
-//		return endEvent;
-//	}
-//
-//	protected void copy(Object obj) {
-//		super.copy(obj);
-//	}
-
 }

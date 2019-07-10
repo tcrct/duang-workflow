@@ -1,12 +1,9 @@
 package com.duangframework.workflow.core;
 
-import com.duangframework.kit.ToolsKit;
-import com.duangframework.utils.DuangId;
 import com.duangframework.workflow.core.model.Action;
-import com.duangframework.workflow.core.model.BaseElement;
+import com.duangframework.workflow.utils.DuangId;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 进程实例
@@ -17,12 +14,12 @@ public class ProcessInstance {
     /**审批进程ID*/
     private String id;
     /**审批进程节点*/
-    private List<BaseElement> actionList;
+    private List<Action> actionList;
 
     public ProcessInstance() {
     }
 
-    public ProcessInstance(List<BaseElement> actionList) {
+    public ProcessInstance(List<Action> actionList) {
         this.id = new DuangId().toString();
         this.actionList = actionList;
     }
@@ -35,11 +32,11 @@ public class ProcessInstance {
         this.id = id;
     }
 
-    public List<BaseElement> getActionList() {
+    public List<Action> getActionList() {
         return actionList;
     }
 
-    public void setActionList(List<BaseElement> actionList) {
+    public void setActionList(List<Action> actionList) {
         this.actionList = actionList;
     }
 
@@ -47,7 +44,7 @@ public class ProcessInstance {
     public String toString() {
         return "ProcessInstance{" +
                 "id='" + id + '\'' +
-                ", actionList=" + ToolsKit.toJsonString(actionList) +
+                ", actionList=" + actionList +
                 '}';
     }
 }

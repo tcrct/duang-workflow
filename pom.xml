@@ -45,29 +45,32 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <duang.version>1.0-SNAPSHOT</duang.version>
-        <encrypt.version>1.0-SNAPSHOT</encrypt.version>
-        <mq.version>1.0-SNAPSHOT</mq.version>
+        <io.version>2.4</io.version>
+        <common.version>3.4</common.version>
     </properties>
 
     <dependencies>
 
+        <!--<dependency>-->
+            <!--<groupId>com.duangframework</groupId>-->
+            <!--<artifactId>duang</artifactId>-->
+            <!--<version>${duang.version}</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>com.duangframework.ext</groupId>-->
+                    <!--<artifactId>duang-ext</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>com.duangframework</groupId>
-            <artifactId>duang</artifactId>
-            <version>${duang.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.duangframework.ext</groupId>
-                    <artifactId>duang-ext</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${io.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
         <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${common.version}</version>
         </dependency>
 
     </dependencies>

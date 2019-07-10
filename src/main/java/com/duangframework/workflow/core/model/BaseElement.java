@@ -1,9 +1,8 @@
 package com.duangframework.workflow.core.model;
 
 
-import com.duangframework.kit.ToolsKit;
-import com.duangframework.utils.Assert;
-import com.duangframework.workflow.utils.NodeEventEnum;
+import com.duangframework.workflow.utils.Assert;
+import com.duangframework.workflow.utils.WorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -122,9 +121,9 @@ public abstract class BaseElement implements INode {
      */
     private String getValue(NamedNodeMap namedNodeMap, String key) {
         Node attribute = namedNodeMap.getNamedItem(key);
-        if (ToolsKit.isNotEmpty(attribute)) {
+        if (WorkflowUtils.isNotEmpty(attribute)) {
             String value = attribute.getNodeValue();
-            if(ToolsKit.isNotEmpty(value)) {
+            if(WorkflowUtils.isNotEmpty(value)) {
                 return value;
             }
         }

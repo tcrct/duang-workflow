@@ -7,59 +7,71 @@ package com.duangframework.workflow.core.model;
 public class Action implements java.io.Serializable{
 
     /**
-     * 源节点，即连接线的开始(左边或上边)节点
+     * 节点ID
      */
-    private Node sourceNode;
+    private String id;
     /**
-     * 连接线
+     * 节点标签，如果是分支节点，则是分支条件字符串
      */
-    private Edge edge;
+    private String label;
     /**
-     * 目标节点，即连接线的结束(箭头指向,右边或下边)节点
+     * 节点详细内容, 一般是json字符串
      */
-    private Node targetNode;
+    private String desc;
+    /**
+     * 节点类型
+     */
+    private String type;
 
     public Action() {
     }
 
-    public Action(Node sourceNode, Node targetNode) {
-        this.sourceNode = sourceNode;
-        this.targetNode = targetNode;
+    public Action(String id, String label, String desc, String type) {
+        this.id = id;
+        this.label = label;
+        this.desc = desc;
+        this.type = type;
     }
 
-
-    public Action(Edge edge, Node targetNode) {
-        this.edge = edge;
-        this.targetNode = targetNode;
+    public String getId() {
+        return id;
     }
 
-    public Action(Node sourceNode, Edge edge, Node targetNode) {
-        this.sourceNode = sourceNode;
-        this.edge = edge;
-        this.targetNode = targetNode;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public Edge getEdge() {
-        return edge;
+    public String getLabel() {
+        return label;
     }
 
-    public void setEdge(Edge edge) {
-        this.edge = edge;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public Node getSourceNode() {
-        return sourceNode;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setSourceNode(Node sourceNode) {
-        this.sourceNode = sourceNode;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public Node getTargetNode() {
-        return targetNode;
+    public String getType() {
+        return type;
     }
 
-    public void setTargetNode(Node targetNode) {
-        this.targetNode = targetNode;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "id='" + id + '\'' +
+                ", label='" + label + '\'' +
+                ", desc='" + desc + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }
