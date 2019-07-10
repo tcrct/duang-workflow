@@ -7,132 +7,297 @@
             <mxCell parent="0"/>
         </Layer>
         <Start label="开始流程" description="" href="" id="2">
-            <mxCell style="start;image=../../../static/images/mxGraph/symbols/start.png" vertex="1" parent="1">
+            <mxCell style="start;image=../../../static/images/mxGraph/symbols/start.png" parent="1" vertex="1">
                 <mxGeometry x="110" y="320" width="60" height="60" as="geometry"/>
             </mxCell>
         </Start>
         <Rhombus label="类型" description="" href="" id="3">
-            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" parent="1" vertex="1">
                 <mxGeometry x="230" y="320" width="60" height="60" as="geometry"/>
             </mxCell>
         </Rhombus>
         <Rhombus label="" description="" href="" id="4">
-            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" parent="1" vertex="1">
                 <mxGeometry x="400" y="230" width="60" height="60" as="geometry"/>
             </mxCell>
         </Rhombus>
         <Rhombus label="" description="" href="" id="5">
-            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
-                <mxGeometry x="410" y="380" width="60" height="60" as="geometry"/>
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" parent="1" vertex="1">
+                <mxGeometry x="390" y="410" width="60" height="60" as="geometry"/>
             </mxCell>
         </Rhombus>
         <Edge label="单价确认" description="" id="7">
-            <mxCell style="straightEdge" edge="1" parent="1" source="3" target="5">
+            <mxCell style="straightEdge" parent="1" source="3" target="5" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Edge label="" description="" id="8">
-            <mxCell style="straightEdge" edge="1" parent="1" source="2" target="3">
+            <mxCell style="straightEdge" parent="1" source="2" target="3" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Rhombus label="" description="" href="" id="9">
-            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" parent="1" vertex="1">
                 <mxGeometry x="600" y="150" width="60" height="60" as="geometry"/>
             </mxCell>
         </Rhombus>
         <Rhombus label="" description="" href="" id="10">
-            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" parent="1" vertex="1">
                 <mxGeometry x="590" y="290" width="60" height="60" as="geometry"/>
             </mxCell>
         </Rhombus>
         <Edge label="外部" description="" id="11">
-            <mxCell style="straightEdge" edge="1" parent="1" source="4" target="9">
+            <mxCell style="straightEdge" parent="1" source="4" target="9" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Edge label="内部" description="" id="12">
-            <mxCell style="straightEdge;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="10">
+            <mxCell style="straightEdge;entryX=0;entryY=1;entryDx=0;entryDy=0;" parent="1" source="4" target="10" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Task label="贾发" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c691e6b61d7131b47ae56f0&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="13">
-            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
                 <mxGeometry x="780" y="66" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
         <Task label="欧阳娜" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c70a7c1fb9d2c2ba69060e1&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="14">
-            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
                 <mxGeometry x="780" y="222" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
         <Edge label="A" description="" id="16">
-            <mxCell style="straightEdge" edge="1" parent="1" source="9" target="13">
+            <mxCell style="straightEdge" parent="1" source="9" target="13" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Task label="安吉拉" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c839a6cdb9d6a36ddff2ea1&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="17">
-            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
-                <mxGeometry x="560" y="400" width="90" height="48" as="geometry"/>
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
+                <mxGeometry x="560" y="406" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
         <Edge label="D" description="" id="18">
-            <mxCell style="straightEdge" edge="1" parent="1" source="5" target="17">
+            <mxCell style="straightEdge" parent="1" source="5" target="17" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <End label="结束流程" description="" href="" id="19">
-            <mxCell style="end;image=../../../static/images/mxGraph/symbols/end.png" vertex="1" parent="1">
-                <mxGeometry x="910" y="400" width="60" height="60" as="geometry"/>
+            <mxCell style="end;image=../../../static/images/mxGraph/symbols/end.png" parent="1" vertex="1">
+                <mxGeometry x="1390" y="390" width="60" height="60" as="geometry"/>
             </mxCell>
         </End>
         <Edge label="" description="" id="20">
-            <mxCell style="straightEdge" edge="1" parent="1" source="13" target="19">
-                <mxGeometry relative="1" as="geometry"/>
+            <mxCell style="straightEdge" parent="1" source="13" target="19" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="1410" y="260"/>
+                    </Array>
+                </mxGeometry>
             </mxCell>
         </Edge>
         <Edge label="" description="" id="21">
-            <mxCell style="straightEdge" edge="1" parent="1" source="14" target="19">
-                <mxGeometry relative="1" as="geometry"/>
+            <mxCell style="straightEdge;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="14" target="19" edge="1">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="1410" y="290"/>
+                    </Array>
+                </mxGeometry>
             </mxCell>
         </Edge>
         <Edge label="" description="" id="22">
-            <mxCell style="straightEdge" edge="1" parent="1" source="17" target="19">
+            <mxCell style="straightEdge" parent="1" source="17" target="19" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Edge label="B" description="" id="23">
-            <mxCell style="straightEdge" edge="1" parent="1" source="9" target="14">
+            <mxCell style="straightEdge" parent="1" source="9" target="14" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Task label="曹操" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5ca32a749f4e0603ad705b2e&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="24">
-            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
                 <mxGeometry x="720" y="330" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
         <Edge label="C" description="" id="25">
-            <mxCell style="straightEdge" edge="1" parent="1" source="10" target="24">
+            <mxCell style="straightEdge" parent="1" source="10" target="24" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Edge label="" description="" id="26">
-            <mxCell style="straightEdge" edge="1" parent="1" source="24" target="19">
+            <mxCell style="straightEdge;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="24" target="19" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Task label="欧阳娜" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c70a7c1fb9d2c2ba69060e1&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="27">
-            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" parent="1" vertex="1">
                 <mxGeometry x="320" y="170" width="90" height="48" as="geometry"/>
             </mxCell>
         </Task>
         <Edge label="" description="" id="28">
-            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="27" target="4">
+            <mxCell style="straightEdge;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="27" target="4" edge="1">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>
         <Edge label="PMC提供物料需求" description="" id="29">
-            <mxCell style="straightEdge" edge="1" parent="1" source="3" target="27">
+            <mxCell style="straightEdge" parent="1" source="3" target="27" edge="1">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Rhombus label="" description="" href="" id="32">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+                <mxGeometry x="490" y="660" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Rhombus>
+        <Rhombus label="" description="" href="" id="33">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+                <mxGeometry x="705" y="530" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Rhombus>
+        <Rhombus label="" description="" href="" id="34">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+                <mxGeometry x="710" y="660" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Rhombus>
+        <Rhombus label="" description="" href="" id="35">
+            <mxCell style="rhombus;image=../../../static/images/mxGraph/tiaojian_2.png" vertex="1" parent="1">
+                <mxGeometry x="700" y="800" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Rhombus>
+        <Edge label="这是一个得复杂表达式" description="" id="36">
+            <mxCell style="straightEdge" edge="1" parent="1" source="5" target="32">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label=" 这是什么？" description="" id="37">
+            <mxCell style="straightEdge;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="32" target="33">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="520" y="590"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="没什么" description="" id="38">
+            <mxCell style="straightEdge;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="34">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="还说没什么" description="" id="39">
+            <mxCell style="straightEdge;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="32" target="35">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="520" y="790"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Task label="李白1" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5cf5c940740c593041cde84d&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="40">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+                <mxGeometry x="865" y="500" width="90" height="48" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label="曹操" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5ca32a749f4e0603ad705b2e&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="41">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+                <mxGeometry x="865" y="566" width="90" height="48" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Task label="程丹秀" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c70b4cf6a6cd440fd2b2d5b&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="42">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+                <mxGeometry x="1090" y="630" width="90" height="48" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Cc label="3人" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5cf5c940740c593041cde84d,5c691d2553837344133787d9,5ca32a749f4e0603ad705b2e&quot;,&quot;nodeType&quot;:&quot;Cc&quot;}" href="" id="43">
+            <mxCell style="symbol;image=../../../static/images/mxGraph/chaosong_1.png" vertex="1" parent="1">
+                <mxGeometry x="890" y="690" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Cc>
+        <Cc label="2人" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c70b4cf6a6cd440fd2b2d5b,5c839a6cdb9d6a36ddff2ea1&quot;,&quot;nodeType&quot;:&quot;Cc&quot;}" href="" id="44">
+            <mxCell style="symbol;image=../../../static/images/mxGraph/chaosong_1.png" vertex="1" parent="1">
+                <mxGeometry x="870" y="790" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Cc>
+        <Cc label="安吉拉" description="{&quot;type&quot;:&quot;user&quot;,&quot;approverUserId&quot;:&quot;5c839a6cdb9d6a36ddff2ea1&quot;,&quot;nodeType&quot;:&quot;Cc&quot;}" href="" id="45">
+            <mxCell style="symbol;image=../../../static/images/mxGraph/chaosong_1.png" vertex="1" parent="1">
+                <mxGeometry x="990" y="790" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </Cc>
+        <Task label="研发总监会签" description="{&quot;type&quot;:&quot;post&quot;,&quot;approverUserId&quot;:&quot;5cec9f9da8d93f6c1218f955&quot;,&quot;authModel&quot;:&quot;and&quot;,&quot;nodeType&quot;:&quot;Task&quot;}" href="" id="46">
+            <mxCell style="task;image=../../../static/images/mxGraph/audit.png" vertex="1" parent="1">
+                <mxGeometry x="940" y="923" width="90" height="48" as="geometry"/>
+            </mxCell>
+        </Task>
+        <Edge label="E" description="" id="47">
+            <mxCell style="straightEdge" edge="1" parent="1" source="33" target="40">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="F" description="" id="48">
+            <mxCell style="straightEdge" edge="1" parent="1" source="33" target="41">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="H" description="" id="50">
+            <mxCell style="straightEdge" edge="1" parent="1" source="34" target="43">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="G" description="" id="51">
+            <mxCell style="straightEdge" edge="1" parent="1" source="34" target="42">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="J" description="" id="52">
+            <mxCell style="straightEdge" edge="1" parent="1" source="35" target="44">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="K" description="" id="53">
+            <mxCell style="straightEdge;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="35" target="46">
+                <mxGeometry x="0.0438" relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="730" y="910"/>
+                    </Array>
+                    <mxPoint as="offset"/>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="54">
+            <mxCell style="straightEdge" edge="1" parent="1" source="44" target="45">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="55">
+            <mxCell style="straightEdge" edge="1" parent="1" source="45" target="46">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="56">
+            <mxCell style="straightEdge;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="46" target="19">
+                <mxGeometry relative="1" as="geometry">
+                    <Array as="points">
+                        <mxPoint x="1410" y="690"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="57">
+            <mxCell style="straightEdge" edge="1" parent="1" source="40" target="19">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="58">
+            <mxCell style="straightEdge" edge="1" parent="1" source="41" target="40">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="59">
+            <mxCell style="straightEdge" edge="1" parent="1" source="43" target="42">
+                <mxGeometry relative="1" as="geometry"/>
+            </mxCell>
+        </Edge>
+        <Edge label="" description="" id="60">
+            <mxCell style="straightEdge" edge="1" parent="1" source="42" target="19">
                 <mxGeometry relative="1" as="geometry"/>
             </mxCell>
         </Edge>

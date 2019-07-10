@@ -142,7 +142,8 @@ public class ProcessDefinition {
      * @param processNode   进程节点
      * @param actionList
      */
-    private static List<BaseElement> baseElementList = new ArrayList<>();
+//    private static List<BaseElement> baseElementList = new ArrayList<>();
+	private static Stack stack = new Stack();
     private void createProcessNode(Node processNode, List<BaseElement> actionList) {
         List<Edge> outEdgeList = processNode.getOutgoing();
         for (Edge edge : outEdgeList) {
@@ -152,26 +153,20 @@ public class ProcessDefinition {
             // 目标节点
             Node node = nodeMap.get(targetId);
             Assert.isTrue(null != node, "根据目标节点ID[" + targetId + "]找不到对应的节点，请检查XML文件是否正确!");
-//            Action action = new Action(edgeNode, node);
             actionList.add(edgeNode);
             actionList.add(node);
-//            List<BaseElement> baseElementList = Const.deepCopy(actionList);
-//            System.out.println("baseElementList.hashCode():" + baseElementList.hashCode()+"                       "+actionList.hashCode());
             // 如果遇到条件分支节点，则复制线路，再进行递归
             if (isRhombusNode(node)) {
                 List<Edge> outGoingEdgeList = node.getOutgoing();
                 Assert.isTrue(null != outGoingEdgeList, "条件分支节点[" + node.getId() + "]没有出边线，请检查XML文件是否正确!");
-				baseElementList = Const.deepCopy(actionList);
                 for (Edge e : outGoingEdgeList) {
-                    List<BaseElement> copyActionList = new ArrayList<>(baseElementList);
                     Edge outGoEdgeNode = edgeMap.get(e.getId());
-                    copyActionList.add(outGoEdgeNode);
+					actionList.add(outGoEdgeNode);
                     Node outGoingNode = nodeMap.get(e.getTargetId());
-                    copyActionList.add(outGoingNode);
-//                    System.out.println(outGoEdgeNode.getId()+"                                "+outGoEdgeNode.getName()+"                "+ outGoingNode.getId()+"   "+ outGoingNode.getName() +"               "+node.getId());
-//                    Action outGoingAction = new Action(outGoEdgeNode, outGoingNode);
-//                    copyActionList2.add(outGoingAction);
-                    createProcessNode(outGoingNode, copyActionList);
+					actionList.add(outGoingNode);
+                    createProcessNode(outGoingNode, actionList);
+					actionList.remove(outGoingNode);
+					actionList.remove(outGoEdgeNode);
                 }
             } else if (isTaskNode(node) || isCcNode(node)) {
                 createProcessNode(node, actionList);
@@ -180,10 +175,11 @@ public class ProcessDefinition {
                 for(BaseElement action1 : instance.getActionList()) {
                     System.out.print(action1.getName()+"("+action1.getId()+"), ");
                 }
-                System.out.println(" ");
-//                System.out.println("  #########:  " + instance);
+				System.out.println("");
                 processInstanceList.add(instance);
             }
+            actionList.remove(node);
+            actionList.remove(edgeNode);
         }
     }
 
