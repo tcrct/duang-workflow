@@ -233,7 +233,7 @@ public class ProcessDefinition {
 					taskCcNodeSet.add(action.getId());
 				}
 			}
-			taksCcNodeMap.put(conditionCode+"", taskCcNodeSet);
+			taksCcNodeMap.put(WorkflowUtils.getRandomStr(6)+"_"+conditionCode, taskCcNodeSet);
 		}
 		System.out.println("############################## 条件树型节点 #############################################");
 		conditionMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, Set<String>>>() {

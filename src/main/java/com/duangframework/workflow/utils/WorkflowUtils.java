@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -173,5 +174,19 @@ public class WorkflowUtils {
         }
 
         return false;
+    }
+
+    /**
+     * 随机生成字符串
+     * @param size 位数
+     */
+    public static String getRandomStr(int size) {
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < size; i++) {
+            int number = random.nextInt(Const.RANDOM_STR.length());
+            sb.append(Const.RANDOM_STR.charAt(number));
+        }
+        return sb.toString();
     }
 }

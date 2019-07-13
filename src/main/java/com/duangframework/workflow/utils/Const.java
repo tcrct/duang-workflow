@@ -17,4 +17,6 @@ public class Const {
 
     public static final String POST_FIELD = "post";
 
+    public static final String RANDOM_STR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
 }
