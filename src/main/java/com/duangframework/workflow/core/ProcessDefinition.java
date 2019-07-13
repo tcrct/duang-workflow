@@ -191,8 +191,8 @@ public class ProcessDefinition {
 	private void add2ActionList(List<BaseElement> actionList) {
 		List<Action> actions = new ArrayList(actionList.size());
 		for (BaseElement element : actionList) {
-			System.out.print(element.getName() + "(" + element.getId() + "), ");
-			actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName()));
+			System.out.print(element.getName() + "(" + element.getId() + "-"+element.getCode()+"), ");
+			actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName(), element.getCode()));
 		}
 		System.out.println(" ");
 		PROCESS_ACTION_LIST.add(actions);
@@ -203,11 +203,11 @@ public class ProcessDefinition {
 	private void getConditionMap(List<List<Action>> instanceList) {
 		LinkedHashMap<String, Set<String>> conditionMap = new LinkedHashMap<>();
 		LinkedHashMap<String, LinkedHashSet<String>> taksCcNodeMap = new LinkedHashMap<>();
-		int conditionCode;
+        StringBuilder conditionCode = new StringBuilder();
 		for(List<Action> actionList : instanceList) {
 			int size = actionList.size();
 			String pid = "0";
-			conditionCode = 0;
+            conditionCode.delete(0, conditionCode.length());
 			LinkedHashSet<String> taskCcNodeSet = new LinkedHashSet<>();
 			for (int i = 0; i < size; i++) {
 				Action action = actionList.get(i);
@@ -218,7 +218,7 @@ public class ProcessDefinition {
 					String edgeId = "";
 					if (Const.EDGE_NODE_NAME.equals(edgeAction.getType()) && WorkflowUtils.isNotEmpty(edgeAction.getLabel())) {
 						edgeId = edgeAction.getId();
-						conditionCode += Integer.parseInt(edgeId);
+						conditionCode.append(edgeAction.getCode());
 					}
 					Set<String> set = conditionMap.get(pid);
 					if (WorkflowUtils.isEmpty(set)) {
@@ -233,7 +233,7 @@ public class ProcessDefinition {
 					taskCcNodeSet.add(action.getId());
 				}
 			}
-			taksCcNodeMap.put(WorkflowUtils.getRandomStr(6)+"_"+conditionCode, taskCcNodeSet);
+			taksCcNodeMap.put(conditionCode.toString(), taskCcNodeSet);
 		}
 		System.out.println("############################## 条件树型节点 #############################################");
 		conditionMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, Set<String>>>() {
@@ -247,13 +247,13 @@ public class ProcessDefinition {
 				} else {
 					perantEdge = edgeMap.get(key);
 				}
-				Action parentAction = new Action(perantEdge.getId(), perantEdge.getLabel(), perantEdge.getDescription(), perantEdge.getName());
+				Action parentAction = new Action(perantEdge.getId(), perantEdge.getLabel(), perantEdge.getDescription(), perantEdge.getName(), perantEdge.getCode());
 				List<Action> actionList = new ArrayList<>();
 				entry.getValue().iterator().forEachRemaining(new Consumer<String>() {
 					@Override
 					public void accept(String key) {
 						BaseElement subEdge = edgeMap.get(key);
-						actionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName()));
+						actionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName(), subEdge.getCode()));
 					}
 				});
 				ActionEdge actionEdge = new ActionEdge();
@@ -281,7 +281,7 @@ public class ProcessDefinition {
 					@Override
 					public void accept(String value) {
 						BaseElement node = nodeMap.get(value);
-						taskCcNodeList.add(new Action(node.getId(), node.getLabel(), node.getDescription(), node.getName()));
+						taskCcNodeList.add(new Action(node.getId(), node.getLabel(), node.getDescription(), node.getName(), node.getCode()));
 						System.out.print(value+",");
 					}
 				});
