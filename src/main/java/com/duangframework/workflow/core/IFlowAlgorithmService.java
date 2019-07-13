@@ -21,5 +21,5 @@ public interface IFlowAlgorithmService {
      * @return
      * @throws Exception
      */
-    <T> T execute(List<ProcessInstance> processInstanceList) throws Exception;
+    <T> T execute(ProcessInstance processInstanceList) throws Exception;
 }

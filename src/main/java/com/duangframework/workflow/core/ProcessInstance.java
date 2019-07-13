@@ -1,6 +1,8 @@
 package com.duangframework.workflow.core;
 
 import com.duangframework.workflow.core.model.Action;
+import com.duangframework.workflow.core.model.ActionEdge;
+import com.duangframework.workflow.core.model.ActionNode;
 import com.duangframework.workflow.utils.DuangId;
 
 import java.util.List;
@@ -13,38 +15,48 @@ public class ProcessInstance {
 
     /**审批进程ID*/
     private String id;
-    /**审批进程节点*/
-    private List<Action> actionList;
+    /**所有进程节点*/
+    private List<List<Action>> actionList;
+    /**
+     * 审批条件分支节点
+     */
+    private List<ActionEdge> actionEdgeList;
+    /**
+     * 审批人或抄送人
+     */
+    private List<ActionNode> actionNodeIdList;
 
     public ProcessInstance() {
     }
 
-    public ProcessInstance(List<Action> actionList) {
+    public ProcessInstance(List<List<Action>> actionList, List<ActionEdge> actionEdgeList, List<ActionNode> actionNodeIdList) {
         this.id = new DuangId().toString();
         this.actionList = actionList;
+        this.actionEdgeList = actionEdgeList;
+        this.actionNodeIdList = actionNodeIdList;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public List<Action> getActionList() {
+    public List<List<Action>> getActionList() {
         return actionList;
     }
 
-    public void setActionList(List<Action> actionList) {
+    public void setActionList(List<List<Action>> actionList) {
         this.actionList = actionList;
     }
 
-    @Override
-    public String toString() {
-        return "ProcessInstance{" +
-                "id='" + id + '\'' +
-                ", actionList=" + actionList +
-                '}';
+    public List<ActionEdge> getActionEdgeList() {
+        return actionEdgeList;
+    }
+
+    public void setActionEdgeList(List<ActionEdge> actionEdgeList) {
+        this.actionEdgeList = actionEdgeList;
+    }
+
+    public List<ActionNode> getActionNodeIdList() {
+        return actionNodeIdList;
+    }
+
+    public void setActionNodeIdList(List<ActionNode> actionNodeIdList) {
+        this.actionNodeIdList = actionNodeIdList;
     }
 }

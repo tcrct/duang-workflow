@@ -2,8 +2,6 @@ package com.duangframework.workflow.core;
 
 import com.duangframework.workflow.service.XMLParserService;
 
-import java.util.List;
-
 /**
  * 工作流引擎
  * @author laotang
@@ -38,13 +36,13 @@ public class DuangEngine implements Engine {
     }
 
     @Override
-    public List<ProcessInstance> deploy(ProcessDefinition processDefinition) throws Exception {
-        List<ProcessInstance> processInstances =  iParserService.deploy(processDefinition);
+    public ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception {
+        ProcessInstance processInstances =  iParserService.deploy(processDefinition);
         return processInstances;
     }
 
     @Override
-    public <T> T execute(List<ProcessInstance> processInstance) throws Exception {
+    public <T> T execute(ProcessInstance processInstance) throws Exception {
         if(null == algorithmService) {
             throw new NullPointerException("algorithmService is null");
         }

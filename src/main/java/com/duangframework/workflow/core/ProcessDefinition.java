@@ -1,15 +1,13 @@
 package com.duangframework.workflow.core;
 
-import com.duangframework.workflow.core.model.Action;
-import com.duangframework.workflow.core.model.BaseElement;
-import com.duangframework.workflow.core.model.Edge;
-import com.duangframework.workflow.core.model.Node;
+import com.duangframework.workflow.core.model.*;
 import com.duangframework.workflow.event.*;
 import com.duangframework.workflow.utils.Assert;
 import com.duangframework.workflow.utils.Const;
 import com.duangframework.workflow.utils.WorkflowUtils;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * @author laotang
@@ -20,7 +18,11 @@ public class ProcessDefinition {
 
 	private Map<String, Edge> edgeMap;
 
-	private List<ProcessInstance> processInstanceList;
+	private List<List<Action>> PROCESS_ACTION_LIST;
+	/**审批条件节点集合，key为父线条的节点，value为该父节点线条所拥有的下一级线条节点*/
+	private static List<ActionEdge> EDGE_ACTION_LIST;
+	/**审批或抄送人节点集合，key为条件节点的ID总和，用于区分线，value为审批或抄数人节点*/
+	private static  List<ActionNode> TASK_CC_ACTION_LIST;
 
 	public ProcessDefinition(Map<String, Node> nodeMap, Map<String, Edge> edgeMap) throws Exception {
 
@@ -79,8 +81,10 @@ public class ProcessDefinition {
 		}
  	}
 
-	public  List<ProcessInstance> deploy() throws Exception {
-		processInstanceList = new ArrayList<>();
+	public  ProcessInstance deploy() throws Exception {
+		PROCESS_ACTION_LIST = new ArrayList<>();
+		EDGE_ACTION_LIST = new ArrayList<>();
+		TASK_CC_ACTION_LIST = new ArrayList<>();
 //		 上面已经保证了每个边都用到了,所以只要判断是不是每个点都被使用了
 //		 顺便发现startEvent而且必须唯一
 		StartEvent startEvent = null;
@@ -101,9 +105,15 @@ public class ProcessDefinition {
 //        List<Action> actionList = new ArrayList<>();
         List<BaseElement> actionList = new ArrayList<>();
         actionList.add(startEvent);
+		List<String> flowNodeIdList = new ArrayList<>();
+		flowNodeIdList.add(startEvent.getId());
+		Map<String, List<String>> edgeMap = new HashMap<>();
 //         递归取出所有审批线路，如果有分支节点，则以分支节点作为key
         createProcessNode(startEvent, actionList);
-		return processInstanceList;
+		getConditionMap(PROCESS_ACTION_LIST);
+		ProcessInstance instance = new ProcessInstance(PROCESS_ACTION_LIST, EDGE_ACTION_LIST, TASK_CC_ACTION_LIST);
+//		System.out.println(EDGE_ACTION_LIST);
+		return instance;
 	}
 
 	private boolean isStartNode(Node node) {
@@ -166,13 +176,95 @@ public class ProcessDefinition {
                 for(BaseElement element : actionList) {
 					System.out.print(element.getName()+"("+element.getId()+"), ");
 					actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName()));
-                }
-				System.out.println("");
-                processInstanceList.add(new ProcessInstance(actions));
-            }
+				}
+				System.out.println(" ");
+                PROCESS_ACTION_LIST.add(actions);
+			}
 			// 递归退出时，删除掉添加的节点，让集合回退到开始进行递归时的状态
             actionList.remove(node);
             actionList.remove(edgeNode);
         }
     }
+	private void getConditionMap(List<List<Action>> instanceList) {
+		LinkedHashMap<String, Set<String>> conditionMap = new LinkedHashMap<>();
+		LinkedHashMap<String, LinkedHashSet<String>> taksCcNodeMap = new LinkedHashMap<>();
+		int conditionCode;
+		for(List<Action> actionList : instanceList) {
+			int size = actionList.size();
+			String pid = "0";
+			conditionCode = 0;
+			LinkedHashSet<String> taskCcNodeSet = new LinkedHashSet<>();
+			for (int i = 0; i < size; i++) {
+				Action action = actionList.get(i);
+				String actionType = action.getType();
+				// 条件节点
+				if (Const.RHOMBUS_NODE_NAME.equals(actionType)) {
+					Action edgeAction = actionList.get(i + 1);
+					String edgeId = "";
+					if (Const.EDGE_NODE_NAME.equals(edgeAction.getType()) && WorkflowUtils.isNotEmpty(edgeAction.getLabel())) {
+						edgeId = edgeAction.getId();
+						conditionCode += Integer.parseInt(edgeId);
+					}
+					Set<String> set = conditionMap.get(pid);
+					if (WorkflowUtils.isEmpty(set)) {
+						set = new TreeSet<>();
+					}
+					set.add(edgeId);
+					conditionMap.put(pid, set);
+					pid = edgeId;
+				}
+				//审批或抄送人节点
+				if(Const.TASK_NODE_NAME.equals(actionType) || Const.CC_NODE_NAME.equals(actionType)) {
+					taskCcNodeSet.add(action.getId());
+				}
+			}
+			taksCcNodeMap.put(conditionCode+"", taskCcNodeSet);
+		}
+
+		conditionMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, Set<String>>>() {
+			@Override
+			public void accept(Map.Entry<String, Set<String>> entry) {
+				String key = entry.getKey();
+				BaseElement perantEdge = null;
+				if("0".equals(key)) {
+					perantEdge = new EdgeEvent();
+					perantEdge.setId("0");
+				} else {
+					perantEdge = edgeMap.get(key);
+				}
+				Action parentAction = new Action(perantEdge.getId(), perantEdge.getLabel(), perantEdge.getDescription(), perantEdge.getName());
+				List<Action> actionList = new ArrayList<>();
+				entry.getValue().iterator().forEachRemaining(new Consumer<String>() {
+					@Override
+					public void accept(String key) {
+						BaseElement subEdge = edgeMap.get(key);
+						actionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName()));
+					}
+				});
+				ActionEdge actionEdge = new ActionEdge();
+				actionEdge.setParentEdge(parentAction);
+				actionEdge.setSubEdgeList(actionList);
+				EDGE_ACTION_LIST.add(actionEdge);
+				System.out.println(actionEdge.getParentEdge().getId()+"              "+ actionEdge.getSubEdgeList());
+			}
+		});
+		taksCcNodeMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, LinkedHashSet<String>>>() {
+			@Override
+			public void accept(Map.Entry<String, LinkedHashSet<String>> entry) {
+				List<Action> taskCcNodeList = new ArrayList<>();
+				String key = entry.getKey();
+				System.out.print(key+"            ");
+				entry.getValue().iterator().forEachRemaining(new Consumer<String>() {
+					@Override
+					public void accept(String value) {
+						BaseElement node = nodeMap.get(value);
+						taskCcNodeList.add(new Action(node.getId(), node.getLabel(), node.getDescription(), node.getName()));
+						System.out.print(value+",");
+					}
+				});
+				System.out.println(" ");
+				TASK_CC_ACTION_LIST.add(new ActionNode(key, taskCcNodeList));
+			}
+		});
+	}
 }

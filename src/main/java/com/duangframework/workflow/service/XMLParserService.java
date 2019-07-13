@@ -96,8 +96,8 @@ public class XMLParserService implements lParserService {
 
 
     @Override
-    public List<ProcessInstance> deploy(ProcessDefinition processDefinition) throws Exception {
-        List<ProcessInstance> processInstanceList = processDefinition.deploy();
+    public ProcessInstance deploy(ProcessDefinition processDefinition) throws Exception {
+        ProcessInstance processInstanceList = processDefinition.deploy();
         return processInstanceList;
     }
 }

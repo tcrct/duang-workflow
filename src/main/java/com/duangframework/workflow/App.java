@@ -11,7 +11,7 @@ import java.util.*;
 public class App {
 
     public static void main(String[] args) {
-        String path = "C:\\workspace\\java\\duang-workflow\\src\\main\\resources\\demo.xml";
+        String path = "C:\\workspace\\IdeaProjects\\duang-workflow\\src\\main\\resources\\demo.xml";
 //        System.out.println(path);
         try {
             String xmlDoc = FileUtils.readFileToString(new File(path));
@@ -19,7 +19,7 @@ public class App {
             // 解释XML并返回流程定义对象
             ProcessDefinition processDefinition = engine.parse(xmlDoc);
             // 发布流程，得到进程实例
-            List<ProcessInstance> processInstance = engine.deploy(processDefinition);
+            ProcessInstance processInstance = engine.deploy(processDefinition);
             // 运行进程实例
 //            WorkFlow workFlow = engine.execute(processInstance);
         } catch (Exception e) {
