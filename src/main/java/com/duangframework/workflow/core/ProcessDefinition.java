@@ -143,48 +143,62 @@ public class ProcessDefinition {
      */
     private void createProcessNode(Node processNode, List<BaseElement> actionList) {
         List<Edge> outEdgeList = processNode.getOutgoing();
-        for (Edge edge : outEdgeList) {
-            String targetId = edge.getTargetId();
-            // 连接线节点
-            Edge edgeNode = edgeMap.get(edge.getId());
-            // 目标节点
-            Node node = nodeMap.get(targetId);
-            Assert.isTrue(null != node, "根据目标节点ID[" + targetId + "]找不到对应的节点，请检查XML文件是否正确!");
-            // 添加线路所经过的所有节点
-            actionList.add(edgeNode);
-            actionList.add(node);
-            // 如果遇到条件分支节点，则复制线路，再进行递归
-            if (isRhombusNode(node)) {
-                List<Edge> outGoingEdgeList = node.getOutgoing();
-                Assert.isTrue(null != outGoingEdgeList, "条件分支节点[" + node.getId() + "]没有出边线，请检查XML文件是否正确!");
-                for (Edge e : outGoingEdgeList) {
-                    Edge outGoEdgeNode = edgeMap.get(e.getId());
+        if(WorkflowUtils.isEmpty(outEdgeList) && isEndNode(processNode)) {
+			add2ActionList(actionList);
+			return;
+		}
+		for (Edge edge : outEdgeList) {
+			String targetId = edge.getTargetId();
+			// 连接线节点
+			Edge edgeNode = edgeMap.get(edge.getId());
+			// 目标节点
+			Node node = nodeMap.get(targetId);
+			Assert.isTrue(null != node, "根据目标节点ID[" + targetId + "]找不到对应的节点，请检查XML文件是否正确!");
+			// 添加线路所经过的所有节点
+			actionList.add(edgeNode);
+			actionList.add(node);
+			// 如果遇到条件分支节点，则复制线路，再进行递归
+			if (isRhombusNode(node)) {
+				List<Edge> outGoingEdgeList = node.getOutgoing();
+				Assert.isTrue(null != outGoingEdgeList, "条件分支节点[" + node.getId() + "]没有出边线，请检查XML文件是否正确!");
+				for (Edge e : outGoingEdgeList) {
+					Edge outGoEdgeNode = edgeMap.get(e.getId());
 					actionList.add(outGoEdgeNode);
-                    Node outGoingNode = nodeMap.get(e.getTargetId());
+					Node outGoingNode = nodeMap.get(e.getTargetId());
 					actionList.add(outGoingNode);
-                    createProcessNode(outGoingNode, actionList);
-                    // 递归退出时，删除掉添加的节点，让集合回退到开始进行递归时的状态
+					createProcessNode(outGoingNode, actionList);
+					// 递归退出时，删除掉添加的节点，让集合回退到开始进行递归时的状态
 					actionList.remove(outGoingNode);
 					actionList.remove(outGoEdgeNode);
-                }
-				// 如果审核人节点或抄送人节点，则继续递归下一节点
-            } else if (isTaskNode(node) || isCcNode(node)) {
-                createProcessNode(node, actionList);
-				// 如果结事节点，则转换内容
-            } else if (isEndNode(node)) {
-                List<Action> actions = new ArrayList(actionList.size());
-                for(BaseElement element : actionList) {
-					System.out.print(element.getName()+"("+element.getId()+"), ");
-					actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName()));
 				}
-				System.out.println(" ");
-                PROCESS_ACTION_LIST.add(actions);
+				// 如果审核人节点或抄送人节点，则继续递归下一节点
+			} else if (isTaskNode(node) || isCcNode(node)) {
+				createProcessNode(node, actionList);
+				// 如果结事节点，则转换内容
+			} else if (isEndNode(node)) {
+				add2ActionList(actionList);
 			}
 			// 递归退出时，删除掉添加的节点，让集合回退到开始进行递归时的状态
-            actionList.remove(node);
-            actionList.remove(edgeNode);
-        }
+			actionList.remove(node);
+			actionList.remove(edgeNode);
+		}
     }
+
+	/**
+	 * 添加到集合里
+	 * @param actionList
+	 */
+	private void add2ActionList(List<BaseElement> actionList) {
+		List<Action> actions = new ArrayList(actionList.size());
+		for (BaseElement element : actionList) {
+			System.out.print(element.getName() + "(" + element.getId() + "), ");
+			actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName()));
+		}
+		System.out.println(" ");
+		PROCESS_ACTION_LIST.add(actions);
+	}
+
+
     /** 生成条件节点与任务节点集合 */
 	private void getConditionMap(List<List<Action>> instanceList) {
 		LinkedHashMap<String, Set<String>> conditionMap = new LinkedHashMap<>();

@@ -1,6 +1,7 @@
 package com.duangframework.workflow.core.model;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.duangframework.workflow.utils.Assert;
 import com.duangframework.workflow.utils.WorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
@@ -124,7 +125,12 @@ public abstract class BaseElement implements INode {
         if (WorkflowUtils.isNotEmpty(attribute)) {
             String value = attribute.getNodeValue();
             if(WorkflowUtils.isNotEmpty(value)) {
-                return value;
+                if("description".equals(key)) {
+                    JSONObject jsonObject = (JSONObject)JSONObject.parse(value);
+                    return jsonObject.toJSONString();
+                } else {
+                    return value;
+                }
             }
         }
         return "";
