@@ -185,6 +185,7 @@ public class ProcessDefinition {
             actionList.remove(edgeNode);
         }
     }
+    /** 生成条件节点与任务节点集合 */
 	private void getConditionMap(List<List<Action>> instanceList) {
 		LinkedHashMap<String, Set<String>> conditionMap = new LinkedHashMap<>();
 		LinkedHashMap<String, LinkedHashSet<String>> taksCcNodeMap = new LinkedHashMap<>();
