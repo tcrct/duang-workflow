@@ -235,7 +235,7 @@ public class ProcessDefinition {
 			}
 			taksCcNodeMap.put(conditionCode+"", taskCcNodeSet);
 		}
-
+		System.out.println("############################## 条件树型节点 #############################################");
 		conditionMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, Set<String>>>() {
 			@Override
 			public void accept(Map.Entry<String, Set<String>> entry) {
@@ -260,9 +260,17 @@ public class ProcessDefinition {
 				actionEdge.setParentEdge(parentAction);
 				actionEdge.setSubEdgeList(actionList);
 				EDGE_ACTION_LIST.add(actionEdge);
-				System.out.println(actionEdge.getParentEdge().getId()+"              "+ actionEdge.getSubEdgeList());
+				System.out.print(actionEdge.getParentEdge().getId()+"              ");
+				actionEdge.getSubEdgeList().iterator().forEachRemaining(new Consumer<Action>() {
+					@Override
+					public void accept(Action action) {
+						System.out.print(action.getId()+",");
+					}
+				});
+				System.out.println(" ");
 			}
 		});
+		System.out.println("################################# 审批人或抄送节点 ##########################################");
 		taksCcNodeMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, LinkedHashSet<String>>>() {
 			@Override
 			public void accept(Map.Entry<String, LinkedHashSet<String>> entry) {
