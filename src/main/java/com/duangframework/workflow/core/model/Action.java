@@ -1,5 +1,7 @@
 package com.duangframework.workflow.core.model;
 
+import com.duangframework.workflow.utils.WorkflowUtils;
+
 /**
  * 所经过的节点
  * @author laotang
@@ -22,15 +24,20 @@ public class Action implements java.io.Serializable{
      * 节点类型
      */
     private String type;
+    /**
+     * 节点唯一标识
+     */
+    private String code;
 
     public Action() {
     }
 
-    public Action(String id, String label, String desc, String type) {
+    public Action(String id, String label, String desc, String type, String code) {
         this.id = id;
         this.label = label;
         this.desc = desc;
         this.type = type;
+        this.code = code;
     }
 
     public String getId() {
@@ -65,6 +72,14 @@ public class Action implements java.io.Serializable{
         this.type = type;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "Action{" +
@@ -72,6 +87,7 @@ public class Action implements java.io.Serializable{
                 ", label='" + label + '\'' +
                 ", desc='" + desc + '\'' +
                 ", type='" + type + '\'' +
+                ", code='" + code + '\'' +
                 '}';
     }
 }

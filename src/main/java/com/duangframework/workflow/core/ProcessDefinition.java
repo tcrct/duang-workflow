@@ -191,8 +191,8 @@ public class ProcessDefinition {
 	private void add2ActionList(List<BaseElement> actionList) {
 		List<Action> actions = new ArrayList(actionList.size());
 		for (BaseElement element : actionList) {
-			System.out.print(element.getName() + "(" + element.getId() + "), ");
-			actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName()));
+			System.out.print(element.getName() + "(" + element.getId() + "-"+element.getCode()+"), ");
+			actions.add(new Action(element.getId(), element.getLabel(), element.getDescription(), element.getName(), element.getCode()));
 		}
 		System.out.println(" ");
 		PROCESS_ACTION_LIST.add(actions);
@@ -203,11 +203,11 @@ public class ProcessDefinition {
 	private void getConditionMap(List<List<Action>> instanceList) {
 		LinkedHashMap<String, LinkedHashSet<String>> conditionMap = new LinkedHashMap<>();
 		LinkedHashMap<String, LinkedHashSet<String>> taksCcNodeMap = new LinkedHashMap<>();
-		int conditionCode;
+        StringBuilder conditionCode = new StringBuilder();
 		for(List<Action> actionList : instanceList) {
 			int size = actionList.size();
 			String pid = "0";
-			conditionCode = 0;
+            conditionCode.delete(0, conditionCode.length());
 			LinkedHashSet<String> taskCcNodeSet = new LinkedHashSet<>();
 			for (int i = 0; i < size; i++) {
 				Action action = actionList.get(i);
@@ -218,7 +218,7 @@ public class ProcessDefinition {
 					String edgeId = "";
 					if (Const.EDGE_NODE_NAME.equals(edgeAction.getType()) && WorkflowUtils.isNotEmpty(edgeAction.getLabel())) {
 						edgeId = edgeAction.getId();
-						conditionCode += Integer.parseInt(edgeId);
+						conditionCode.append(edgeAction.getCode());
 					}
 					LinkedHashSet<String> set = conditionMap.get(pid);
 					if (WorkflowUtils.isEmpty(set)) {
@@ -283,7 +283,7 @@ public class ProcessDefinition {
 					@Override
 					public void accept(String value) {
 						BaseElement node = nodeMap.get(value);
-						taskCcNodeList.add(new Action(node.getId(), node.getLabel(), node.getDescription(), node.getName()));
+						taskCcNodeList.add(new Action(node.getId(), node.getLabel(), node.getDescription(), node.getName(), node.getCode()));
 						System.out.print(value+",");
 					}
 				});

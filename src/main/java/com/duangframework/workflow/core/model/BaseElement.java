@@ -19,6 +19,8 @@ public abstract class BaseElement implements INode {
     private String href;
     /**标签名称*/
     private String name;
+    /**节点唯一标识*/
+    private String code;
     /**
      * 是否真的被使用到了,没有使用的视为无效配置,会报异常
      */
@@ -26,6 +28,7 @@ public abstract class BaseElement implements INode {
 
 
     public BaseElement() {
+        setCode(WorkflowUtils.getRandomStr(6));
     }
 
     public BaseElement(String id, String label, String description, String href, String name) {
@@ -34,6 +37,7 @@ public abstract class BaseElement implements INode {
         this.description = description;
         this.href = href;
         this.name = name;
+        setCode(WorkflowUtils.getRandomStr(6));
     }
 
     public String getId() {
@@ -74,6 +78,14 @@ public abstract class BaseElement implements INode {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void parse(org.w3c.dom.Node node) throws Exception {
