@@ -6,6 +6,7 @@ import com.duangframework.workflow.utils.Assert;
 import com.duangframework.workflow.utils.Const;
 import com.duangframework.workflow.utils.WorkflowUtils;
 
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.function.Consumer;
 
