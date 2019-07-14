@@ -249,13 +249,13 @@ public class ProcessDefinition {
 				} else {
 					perantEdge = edgeMap.get(key);
 				}
-				Action parentAction = new Action(perantEdge.getId(), perantEdge.getLabel(), perantEdge.getDescription(), perantEdge.getName());
+				Action parentAction = new Action(perantEdge.getId(), perantEdge.getLabel(), perantEdge.getDescription(), perantEdge.getName(), perantEdge.getCode());
 				List<Action> edgeActionList = new ArrayList<>();
 				entry.getValue().iterator().forEachRemaining(new Consumer<String>() {
 					@Override
 					public void accept(String key) {
 						BaseElement subEdge = edgeMap.get(key);
-						edgeActionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName()));
+						edgeActionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName(), subEdge.getCode()));
 					}
 				});
 				ActionEdge actionEdge = new ActionEdge();
