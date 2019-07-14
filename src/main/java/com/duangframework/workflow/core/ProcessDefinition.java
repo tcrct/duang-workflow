@@ -201,7 +201,7 @@ public class ProcessDefinition {
 
     /** 生成条件节点与任务节点集合 */
 	private void getConditionMap(List<List<Action>> instanceList) {
-		LinkedHashMap<String, Set<String>> conditionMap = new LinkedHashMap<>();
+		LinkedHashMap<String, LinkedHashSet<String>> conditionMap = new LinkedHashMap<>();
 		LinkedHashMap<String, LinkedHashSet<String>> taksCcNodeMap = new LinkedHashMap<>();
 		int conditionCode;
 		for(List<Action> actionList : instanceList) {
@@ -220,9 +220,9 @@ public class ProcessDefinition {
 						edgeId = edgeAction.getId();
 						conditionCode += Integer.parseInt(edgeId);
 					}
-					Set<String> set = conditionMap.get(pid);
+					LinkedHashSet<String> set = conditionMap.get(pid);
 					if (WorkflowUtils.isEmpty(set)) {
-						set = new TreeSet<>();
+						set = new LinkedHashSet<>();
 					}
 					set.add(edgeId);
 					conditionMap.put(pid, set);
@@ -233,12 +233,14 @@ public class ProcessDefinition {
 					taskCcNodeSet.add(action.getId());
 				}
 			}
-			taksCcNodeMap.put(WorkflowUtils.getRandomStr(6)+"_"+conditionCode, taskCcNodeSet);
+//			taksCcNodeMap.put(WorkflowUtils.getRandomStr(6)+"_"+conditionCode, taskCcNodeSet);
+			taksCcNodeMap.put(""+conditionCode, taskCcNodeSet);
 		}
+
 		System.out.println("############################## 条件树型节点 #############################################");
-		conditionMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, Set<String>>>() {
+		conditionMap.entrySet().iterator().forEachRemaining(new Consumer<Map.Entry<String, LinkedHashSet<String>>>() {
 			@Override
-			public void accept(Map.Entry<String, Set<String>> entry) {
+			public void accept(Map.Entry<String, LinkedHashSet<String>> entry) {
 				String key = entry.getKey();
 				BaseElement perantEdge = null;
 				if("0".equals(key)) {
@@ -248,17 +250,17 @@ public class ProcessDefinition {
 					perantEdge = edgeMap.get(key);
 				}
 				Action parentAction = new Action(perantEdge.getId(), perantEdge.getLabel(), perantEdge.getDescription(), perantEdge.getName());
-				List<Action> actionList = new ArrayList<>();
+				List<Action> edgeActionList = new ArrayList<>();
 				entry.getValue().iterator().forEachRemaining(new Consumer<String>() {
 					@Override
 					public void accept(String key) {
 						BaseElement subEdge = edgeMap.get(key);
-						actionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName()));
+						edgeActionList.add(new Action(subEdge.getId(), subEdge.getLabel(), subEdge.getDescription(), subEdge.getName()));
 					}
 				});
 				ActionEdge actionEdge = new ActionEdge();
 				actionEdge.setParentEdge(parentAction);
-				actionEdge.setSubEdgeList(actionList);
+				actionEdge.setSubEdgeList(edgeActionList);
 				EDGE_ACTION_LIST.add(actionEdge);
 				System.out.print(actionEdge.getParentEdge().getId()+"              ");
 				actionEdge.getSubEdgeList().iterator().forEachRemaining(new Consumer<Action>() {
