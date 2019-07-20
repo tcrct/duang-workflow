@@ -329,6 +329,36 @@ public class XmlUtils {
     }
 
     /**
+     * 将Document输出成字符串的形式。删除<?xml version="1.0" encoding="UTF-8"?>字符串内容
+     *
+     * @param node
+     * Node对象。
+     * @param encoding
+     * 字符串的编码。
+     * @return 返回输出成的字符串。
+     * @throws TransformerException
+     * 如果转换过程中发生不可恢复的错误时，抛出此异常。
+     * @throws UnsupportedEncodingException
+     * 指定的字符串编码不支持时，抛出此异常。
+     */
+    private static final String XML_VERSION_VALUE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    public static String nodeToString2(Node node) throws TransformerException, UnsupportedEncodingException {
+        String encoding = "UTF-8";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        XmlUtils.writeXml(outputStream, node, encoding);
+        String nodeXmlString =  outputStream.toString(encoding);
+        if(null != nodeXmlString && nodeXmlString.startsWith("<?xml")){
+            nodeXmlString = nodeXmlString.replace(XML_VERSION_VALUE, "");
+        }
+        return  nodeXmlString;
+    }
+
+
+    private static void writeXml(OutputStream os, Node node, String encoding) throws TransformerException {
+        writeXml(os, node, encoding, false);
+    }
+
+    /**
      * 将指定的Node写到指定的OutputStream流中。
      *
      * @param encoding
@@ -337,14 +367,18 @@ public class XmlUtils {
      * OutputStream流。
      * @param node
      * Node节点。
+     * @param format
+     * 格式化Node节点字符串。
      * @throws TransformerException
      * 如果转换过程中发生不可恢复的错误时，抛出此异常。
      */
-    private static void writeXml(OutputStream os, Node node, String encoding) throws TransformerException {
+    private static void writeXml(OutputStream os, Node node, String encoding, boolean format) throws TransformerException {
         TransformerFactory transFactory = TransformerFactory.newInstance();
         Transformer transformer = transFactory.newTransformer();
-        transformer.setOutputProperty("indent", "yes");
-        transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+        if(format) {
+            transformer.setOutputProperty("indent", "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+        }
 
         DOMSource source = new DOMSource();
         source.setNode(node);

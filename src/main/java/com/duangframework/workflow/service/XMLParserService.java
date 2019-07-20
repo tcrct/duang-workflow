@@ -52,7 +52,7 @@ public class XMLParserService implements lParserService {
                     EdgeEvent edgeEvent = new EdgeEvent();
                     edgeEvent.parse(nodeItem);
                     edgeMap.put(edgeEvent.getId(), edgeEvent);
-                    edgeXmlString.append(nodeItem);
+                    edgeXmlString.append(XmlUtils.nodeToString2(nodeItem));
                 } else {
                     for (NodeEventEnum eventEnum : nodeEventEnums) {
                         if (eventEnum.getType().equalsIgnoreCase(nodeType)) {
@@ -61,10 +61,10 @@ public class XMLParserService implements lParserService {
                             nodeMap.put(event.getId(), event);
                         }
                     }
-                    nodeXmlString.append(nodeItem);
+                    nodeXmlString.append(XmlUtils.nodeToString2(nodeItem));
                 }
             }
-            String sortXml = nodeXmlString.toString()+edgeXmlString.toString();
+            String sortXml = WorkflowUtils.buildSortXml(nodeXmlString, edgeXmlString);
             validate(nodeMap, edgeMap);
             // 真正连接点+边,并做有效性验证
             ProcessDefinition topology = new ProcessDefinition(nodeMap, edgeMap);
@@ -107,4 +107,5 @@ public class XMLParserService implements lParserService {
         ProcessInstance processInstanceList = processDefinition.deploy();
         return processInstanceList;
     }
+
 }

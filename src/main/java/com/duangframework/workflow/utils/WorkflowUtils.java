@@ -189,4 +189,13 @@ public class WorkflowUtils {
         }
         return sb.toString();
     }
+
+    public static String buildSortXml(StringBuilder nodeXmlString, StringBuilder edgeXmlString) {
+        StringBuilder xml = new StringBuilder();
+        xml.append("<mxGraphModel><root>")
+                .append(nodeXmlString)
+                .append(edgeXmlString)
+                .append("</root></mxGraphModel>");
+        return xml.toString();
+    }
 }
