@@ -60,9 +60,7 @@ public class XmlUtils {
         return XmlUtils.parseForDoc(new FileInputStream(file));
     }
 
-    /**
-     * 将一个xml字符串解析成Document对象。
-     *
+    /**将一个xml字符串解析成Document对象。
      * @param xmlStr
      * 要被解析的xml字符串。
      * @param encoding
