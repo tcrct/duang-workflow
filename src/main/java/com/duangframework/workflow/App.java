@@ -11,7 +11,7 @@ import java.util.*;
 public class App {
 
     public static void main(String[] args) {
-        String path = "C:\\workspace\\java\\duang-workflow\\src\\main\\resources\\demo.xml";
+        String path = "C:\\workspace\\IdeaProjects\\duang-workflow\\src\\main\\resources\\demo.xml";
 //        System.out.println(path);
         try {
             String xmlDoc = FileUtils.readFileToString(new File(path));

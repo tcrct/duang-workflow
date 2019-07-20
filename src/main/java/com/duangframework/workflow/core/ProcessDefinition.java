@@ -24,6 +24,8 @@ public class ProcessDefinition {
 	/**审批或抄送人节点集合，key为条件节点的ID总和，用于区分线，value为审批或抄数人节点*/
 	private static  List<ActionNode> TASK_CC_ACTION_LIST;
 
+	private String sortXml;
+
 	public ProcessDefinition(Map<String, Node> nodeMap, Map<String, Edge> edgeMap) throws Exception {
 
 		Assert.isTrue(null != nodeMap, "not valid node map");
@@ -41,6 +43,14 @@ public class ProcessDefinition {
 
 	public Map<String, Edge> getEdgeMap() {
 		return edgeMap;
+	}
+
+	public String getSortXml() {
+		return sortXml;
+	}
+
+	public void setSortXml(String sortXml) {
+		this.sortXml = sortXml;
 	}
 
 	/**

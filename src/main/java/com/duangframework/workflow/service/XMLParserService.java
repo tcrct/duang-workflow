@@ -42,6 +42,8 @@ public class XMLParserService implements lParserService {
         NodeList nodeList = rootNode.getChildNodes();
         int length = nodeList.getLength();
         try {
+            StringBuilder nodeXmlString = new StringBuilder();
+            StringBuilder edgeXmlString = new StringBuilder();
             NodeEventEnum[] nodeEventEnums = NodeEventEnum.values();
             for (int i = 0; i < length; i++) {
                 org.w3c.dom.Node nodeItem = nodeList.item(i);
@@ -50,6 +52,7 @@ public class XMLParserService implements lParserService {
                     EdgeEvent edgeEvent = new EdgeEvent();
                     edgeEvent.parse(nodeItem);
                     edgeMap.put(edgeEvent.getId(), edgeEvent);
+                    edgeXmlString.append(nodeItem);
                 } else {
                     for (NodeEventEnum eventEnum : nodeEventEnums) {
                         if (eventEnum.getType().equalsIgnoreCase(nodeType)) {
@@ -58,11 +61,15 @@ public class XMLParserService implements lParserService {
                             nodeMap.put(event.getId(), event);
                         }
                     }
+                    nodeXmlString.append(nodeItem);
                 }
             }
+            String sortXml = nodeXmlString.toString()+edgeXmlString.toString();
             validate(nodeMap, edgeMap);
             // 真正连接点+边,并做有效性验证
             ProcessDefinition topology = new ProcessDefinition(nodeMap, edgeMap);
+            topology.setSortXml(sortXml);
+            System.out.println("sortXml: " + sortXml);
             return topology;
         } catch (Exception e) {
             return null;
