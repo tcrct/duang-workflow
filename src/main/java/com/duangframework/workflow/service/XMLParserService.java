@@ -69,7 +69,7 @@ public class XMLParserService implements lParserService {
             // 真正连接点+边,并做有效性验证
             ProcessDefinition topology = new ProcessDefinition(nodeMap, edgeMap);
             topology.setSortXml(sortXml);
-            System.out.println("sortXml: " + sortXml);
+//            System.out.println("sortXml: " + sortXml);
             return topology;
         } catch (Exception e) {
             return null;

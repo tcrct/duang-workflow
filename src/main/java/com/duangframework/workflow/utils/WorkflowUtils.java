@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,7 @@ import java.util.regex.Pattern;
  */
 public class WorkflowUtils {
 
+    private static final Lock lock = new ReentrantLock();
     /***
      * 判断传入的对象是否为空
      *
@@ -181,13 +184,20 @@ public class WorkflowUtils {
      * @param size 位数
      */
     public static String getRandomStr(int size) {
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < size; i++) {
-            int number = random.nextInt(Const.RANDOM_STR.length());
-            sb.append(Const.RANDOM_STR.charAt(number));
+        try {
+            lock.lock();
+            Random random = new Random();
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < size; i++) {
+                int number = random.nextInt(Const.RANDOM_STR.length());
+                sb.append(Const.RANDOM_STR.charAt(number));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            return "";
+        } finally {
+            lock.unlock();
         }
-        return sb.toString();
     }
 
     public static String buildSortXml(StringBuilder nodeXmlString, StringBuilder edgeXmlString) {
